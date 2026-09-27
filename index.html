@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Momentum Labs — Daytrading Academy</title>
-<meta name="description" content="Learn to daytrade equities, futures, and crypto with proven systems. Live sessions, mentorship, and risk frameworks.">
+<meta name="description" content="Learn to daytrade equities, futures, and crypto with proven systems. Free curriculum, live sessions, mentorship, and risk frameworks.">
 <style>
 /* ---------- reset ---------- */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -128,21 +128,79 @@ section.block{padding:90px 0;border-top:1px solid var(--line)}
 .section-head p{color:var(--fg-2);font-size:15.5px}
 .kicker{font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--green);margin-bottom:14px}
 
-/* features */
-.features{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-@media(max-width:900px){.features{grid-template-columns:1fr}}
-.feat{
-  background:var(--bg-2);border:1px solid var(--line);border-radius:12px;padding:24px;
-  transition:.2s;
+/* curriculum modules (public) */
+.module{
+  background:var(--bg-2);border:1px solid var(--line);border-radius:12px;
+  margin-bottom:14px;overflow:hidden;
 }
-.feat:hover{border-color:var(--line-2);transform:translateY(-2px)}
-.feat-ico{
-  width:38px;height:38px;border-radius:9px;margin-bottom:16px;
+.module-head{
+  display:flex;align-items:center;gap:16px;
+  padding:18px 22px;cursor:pointer;transition:.15s;
+}
+.module-head:hover{background:var(--bg-3)}
+.module-num{
+  width:34px;height:34px;flex:none;border-radius:8px;
   background:rgba(22,199,132,.08);border:1px solid rgba(22,199,132,.2);
-  display:grid;place-items:center;color:var(--green);
+  display:grid;place-items:center;color:var(--green);font-weight:700;font-size:13px;
+  font-variant-numeric:tabular-nums;
 }
-.feat h3{font-size:16px;margin-bottom:8px;letter-spacing:-.01em}
-.feat p{font-size:14px;color:var(--fg-2)}
+.module-title{flex:1}
+.module-title h3{font-size:15px;letter-spacing:-.01em;margin-bottom:3px}
+.module-title .sub{font-size:12px;color:var(--fg-3)}
+.module-meta{font-size:12px;color:var(--fg-3);display:flex;gap:16px;font-variant-numeric:tabular-nums}
+.module-chev{color:var(--fg-3);transition:.2s;flex:none}
+.module.open .module-chev{transform:rotate(180deg)}
+.module-body{display:none;border-top:1px solid var(--line);padding:8px 22px 22px}
+.module.open .module-body{display:block}
+
+.lesson{
+  display:flex;align-items:center;gap:16px;
+  padding:12px 0;border-bottom:1px solid var(--line);
+  font-size:13.5px;
+}
+.lesson:last-child{border-bottom:none}
+.lesson .play{
+  width:28px;height:28px;flex:none;border-radius:6px;
+  background:var(--bg-3);border:1px solid var(--line-2);
+  display:grid;place-items:center;color:var(--fg-2);
+}
+.lesson .lt{flex:1;color:var(--fg)}
+.lesson .dur{color:var(--fg-3);font-variant-numeric:tabular-nums;font-size:12px}
+
+.video-slot{
+  margin:14px 0 18px;
+  background:linear-gradient(135deg,#0c1118,#151c26);
+  border:1px solid var(--line);border-radius:10px;
+  aspect-ratio:16/9;position:relative;overflow:hidden;
+  display:grid;place-items:center;
+}
+.video-slot::after{
+  content:"";position:absolute;inset:0;
+  background:
+    repeating-linear-gradient(90deg,transparent 0 22px,rgba(22,199,132,.04) 22px 23px),
+    repeating-linear-gradient(0deg,transparent 0 22px,rgba(22,199,132,.04) 22px 23px);
+  pointer-events:none;
+}
+.video-slot .vcenter{position:relative;z-index:1;text-align:center}
+.video-slot .vplay{
+  width:56px;height:56px;border-radius:99px;
+  background:rgba(22,199,132,.12);border:1px solid rgba(22,199,132,.35);
+  display:grid;place-items:center;margin:0 auto 12px;color:var(--green);
+}
+.video-slot .vlabel{font-size:12px;color:var(--fg-3);font-family:ui-monospace,Menlo,monospace}
+
+.dl-row{
+  margin-top:16px;padding-top:16px;border-top:1px solid var(--line);
+  display:flex;flex-wrap:wrap;gap:10px;
+}
+.dl-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:9px 14px;border-radius:8px;font-size:12.5px;font-weight:600;
+  background:var(--bg-3);border:1px solid var(--line-2);color:var(--fg-2);
+  transition:.15s;
+}
+.dl-btn:hover{color:var(--fg);border-color:var(--fg-3);background:var(--bg-2)}
+.dl-btn svg{color:var(--green)}
 
 /* pricing */
 .pricing{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
@@ -211,7 +269,7 @@ footer a:hover{color:var(--fg-2)}
 .foot-bottom{display:flex;justify-content:space-between;padding-top:24px;border-top:1px solid var(--line);flex-wrap:wrap;gap:12px}
 
 /* =========================================================================
-   ADMIN SHELL
+   ADMIN SHELL (logs only)
    ========================================================================= */
 #adminShell{
   position:fixed;inset:0;z-index:9999;background:#05070a;
@@ -232,13 +290,6 @@ footer a:hover{color:var(--fg-2)}
   color:var(--red);border:1px solid rgba(234,57,67,.35);
   padding:3px 8px;border-radius:99px;background:rgba(234,57,67,.06);
 }
-.shell-tabs{display:flex;gap:4px;background:var(--bg-3);padding:4px;border-radius:8px}
-.shell-tab{
-  padding:7px 18px;border-radius:6px;font-size:13px;font-weight:600;
-  color:var(--fg-3);transition:.15s;
-}
-.shell-tab:hover{color:var(--fg-2)}
-.shell-tab.on{background:var(--bg-2);color:var(--fg);box-shadow:0 1px 2px rgba(0,0,0,.3)}
 .shell-actions{display:flex;gap:8px}
 .shell-actions button{
   padding:7px 12px;border-radius:7px;font-size:12px;font-weight:600;
@@ -246,13 +297,8 @@ footer a:hover{color:var(--fg-2)}
 }
 .shell-actions button:hover{color:var(--fg);border-color:var(--fg-3)}
 
-.shell-body{flex:1;position:relative;overflow:hidden}
-.tabpane{position:absolute;inset:0;display:none;overflow:hidden}
-.tabpane.on{display:flex;flex-direction:column}
-
-/* ---------- logs pane ---------- */
-#pane-logs .logs-body{flex:1;display:grid;grid-template-columns:340px 1fr;overflow:hidden}
-@media(max-width:800px){#pane-logs .logs-body{grid-template-columns:1fr}}
+.shell-body{flex:1;display:grid;grid-template-columns:340px 1fr;overflow:hidden}
+@media(max-width:800px){.shell-body{grid-template-columns:1fr}}
 .logs-list{border-right:1px solid var(--line);overflow-y:auto;background:var(--bg-2)}
 .log-item{padding:14px 18px;border-bottom:1px solid var(--line);cursor:pointer;transition:.12s}
 .log-item:hover{background:var(--bg-3)}
@@ -269,102 +315,6 @@ footer a:hover{color:var(--fg-2)}
 .keyline{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:var(--bg-2);border:1px solid var(--line);border-radius:6px;padding:8px 10px;margin-bottom:6px;color:var(--fg-2);white-space:pre-wrap;word-break:break-all}
 .keyline b{color:var(--green);font-weight:600}
 #mouseCanvas{background:var(--bg-2);border:1px solid var(--line);border-radius:6px;max-width:100%}
-
-/* ---------- courses pane ---------- */
-#pane-courses{overflow-y:auto;display:none}
-#pane-courses.on{display:block}
-.courses-wrap{max-width:920px;margin:0 auto;padding:36px 24px 80px}
-.courses-head{margin-bottom:34px}
-.courses-head h2{font-size:26px;letter-spacing:-.02em;margin-bottom:8px}
-.courses-head p{color:var(--fg-2);font-size:14px}
-.courses-head .badge{
-  display:inline-flex;align-items:center;gap:8px;
-  font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
-  color:var(--green);border:1px solid rgba(22,199,132,.3);
-  background:rgba(22,199,132,.06);padding:5px 10px;border-radius:99px;
-  margin-bottom:16px;
-}
-.module{
-  background:var(--bg-2);border:1px solid var(--line);border-radius:12px;
-  margin-bottom:14px;overflow:hidden;
-}
-.module-head{
-  display:flex;align-items:center;gap:16px;
-  padding:18px 22px;cursor:pointer;transition:.15s;
-}
-.module-head:hover{background:var(--bg-3)}
-.module-num{
-  width:34px;height:34px;flex:none;border-radius:8px;
-  background:rgba(22,199,132,.08);border:1px solid rgba(22,199,132,.2);
-  display:grid;place-items:center;color:var(--green);font-weight:700;font-size:13px;
-  font-variant-numeric:tabular-nums;
-}
-.module-title{flex:1}
-.module-title h3{font-size:15px;letter-spacing:-.01em;margin-bottom:3px}
-.module-title .sub{font-size:12px;color:var(--fg-3)}
-.module-meta{font-size:12px;color:var(--fg-3);display:flex;gap:16px;font-variant-numeric:tabular-nums}
-.module-chev{
-  color:var(--fg-3);transition:.2s;flex:none;
-}
-.module.open .module-chev{transform:rotate(180deg)}
-.module-body{display:none;border-top:1px solid var(--line);padding:8px 22px 22px}
-.module.open .module-body{display:block}
-
-.lesson{
-  display:flex;align-items:center;gap:16px;
-  padding:12px 0;border-bottom:1px solid var(--line);
-  font-size:13.5px;
-}
-.lesson:last-child{border-bottom:none}
-.lesson .play{
-  width:28px;height:28px;flex:none;border-radius:6px;
-  background:var(--bg-3);border:1px solid var(--line-2);
-  display:grid;place-items:center;color:var(--fg-2);
-}
-.lesson .lt{flex:1;color:var(--fg)}
-.lesson .dur{color:var(--fg-3);font-variant-numeric:tabular-nums;font-size:12px}
-.lesson .tagpill{
-  font-size:10px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;
-  padding:2px 7px;border-radius:99px;
-  background:rgba(79,140,255,.08);color:var(--accent);border:1px solid rgba(79,140,255,.2);
-}
-
-.video-slot{
-  margin:14px 0 18px;
-  background:linear-gradient(135deg,#0c1118,#151c26);
-  border:1px solid var(--line);border-radius:10px;
-  aspect-ratio:16/9;position:relative;overflow:hidden;
-  display:grid;place-items:center;
-}
-.video-slot::after{
-  content:"";position:absolute;inset:0;
-  background:
-    repeating-linear-gradient(90deg,transparent 0 22px,rgba(22,199,132,.04) 22px 23px),
-    repeating-linear-gradient(0deg,transparent 0 22px,rgba(22,199,132,.04) 22px 23px);
-  pointer-events:none;
-}
-.video-slot .vcenter{
-  position:relative;z-index:1;text-align:center;
-}
-.video-slot .vplay{
-  width:56px;height:56px;border-radius:99px;
-  background:rgba(22,199,132,.12);border:1px solid rgba(22,199,132,.35);
-  display:grid;place-items:center;margin:0 auto 12px;color:var(--green);
-}
-.video-slot .vlabel{font-size:12px;color:var(--fg-3);font-family:ui-monospace,Menlo,monospace}
-
-.dl-row{
-  margin-top:16px;padding-top:16px;border-top:1px solid var(--line);
-  display:flex;flex-wrap:wrap;gap:10px;
-}
-.dl-btn{
-  display:inline-flex;align-items:center;gap:8px;
-  padding:9px 14px;border-radius:8px;font-size:12.5px;font-weight:600;
-  background:var(--bg-3);border:1px solid var(--line-2);color:var(--fg-2);
-  transition:.15s;
-}
-.dl-btn:hover{color:var(--fg);border-color:var(--fg-3);background:var(--bg-2)}
-.dl-btn svg{color:var(--green)}
 </style>
 </head>
 <body>
@@ -382,7 +332,7 @@ footer a:hover{color:var(--fg-2)}
       <a href="#stories" data-seq="stories">Students</a>
       <a href="#journal" data-seq="journal">Journal</a>
     </div>
-    <button class="nav-cta" onclick="document.getElementById('pricing').scrollIntoView()">Start free trial</button>
+    <button class="nav-cta" onclick="document.getElementById('curriculum').scrollIntoView()">Start learning</button>
   </div>
 </nav>
 
@@ -390,12 +340,12 @@ footer a:hover{color:var(--fg-2)}
 <header class="hero">
   <div class="container hero-grid">
     <div>
-      <div class="eyebrow"><span class="dot"></span> Live cohort begins November 12</div>
+      <div class="eyebrow"><span class="dot"></span> Full curriculum now free</div>
       <h1>Trade the open like it's <span class="accent">a business</span>, not a bet.</h1>
       <p class="lede">Momentum Labs teaches a repeatable intraday system built on liquidity, structure, and risk. No indicator soup. No guru worship. Just a framework you can size up over time.</p>
       <div class="hero-ctas">
-        <button class="btn btn-primary" onclick="document.getElementById('pricing').scrollIntoView()">Enroll now →</button>
-        <button class="btn btn-ghost" onclick="document.getElementById('curriculum').scrollIntoView()">View curriculum</button>
+        <button class="btn btn-primary" onclick="document.getElementById('curriculum').scrollIntoView()">Browse curriculum →</button>
+        <button class="btn btn-ghost" onclick="document.getElementById('pricing').scrollIntoView()">Mentorship</button>
       </div>
       <div class="hero-stats">
         <div><b>4,200+</b>Students trained</div>
@@ -428,58 +378,15 @@ footer a:hover{color:var(--fg-2)}
   </div>
 </header>
 
-<!-- ============ FEATURES ============ -->
+<!-- ============ CURRICULUM (public, full) ============ -->
 <section class="block" id="curriculum">
   <div class="container">
     <div class="section-head">
       <div class="kicker">Curriculum</div>
       <h2>An eight-week path from screen-watcher to systematic trader.</h2>
-      <p>Every module pairs recorded theory with live market reps. You graduate with a written plan, backtested setups, and a sizing model you actually trust.</p>
+      <p>Every module pairs recorded theory with live market reps. You graduate with a written plan, backtested setups, and a sizing model you actually trust. All lessons and downloads are free.</p>
     </div>
-    <div class="features">
-      <div class="feat">
-        <div class="feat-ico">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg>
-        </div>
-        <h3>Market structure &amp; liquidity</h3>
-        <p>Read the auction. Understand where stops sit, where value builds, and how to position ahead of the crowd instead of behind it.</p>
-      </div>
-      <div class="feat">
-        <div class="feat-ico">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M8 4v16"/></svg>
-        </div>
-        <h3>Playbook construction</h3>
-        <p>Build three high-conviction setups — opening drive, failed breakout, and afternoon rotation — each with defined invalidation.</p>
-      </div>
-      <div class="feat">
-        <div class="feat-ico">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M2 12h20"/><circle cx="12" cy="12" r="9"/></svg>
-        </div>
-        <h3>Risk &amp; position sizing</h3>
-        <p>Fixed fractional sizing, daily loss caps, and drawdown math that keeps you in the game long enough for edge to compound.</p>
-      </div>
-      <div class="feat">
-        <div class="feat-ico">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M4 15l4-4 3 3 5-6 4 4"/></svg>
-        </div>
-        <h3>Backtesting &amp; stats</h3>
-        <p>Turn intuition into data. Sample size, expectancy, MAE/MFE, and the numbers that actually determine whether you have an edge.</p>
-      </div>
-      <div class="feat">
-        <div class="feat-ico">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
-        </div>
-        <h3>Live market reps</h3>
-        <p>Daily pre-market prep, live open commentary, and post-session review. You watch the system run in real conditions, not a slideshow.</p>
-      </div>
-      <div class="feat">
-        <div class="feat-ico">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg>
-        </div>
-        <h3>Psychology &amp; process</h3>
-        <p>Trade journals, tilt protocols, and the routines that separate traders who last from traders who blow up in month three.</p>
-      </div>
-    </div>
+    <div id="curriculumMount"></div>
   </div>
 </section>
 
@@ -487,27 +394,27 @@ footer a:hover{color:var(--fg-2)}
 <section class="block" id="pricing">
   <div class="container">
     <div class="section-head">
-      <div class="kicker">Pricing</div>
-      <h2>Pick the level of support you actually need.</h2>
-      <p>Every tier includes lifetime access to the recorded core curriculum. The difference is how much live feedback you want.</p>
+      <div class="kicker">Mentorship</div>
+      <h2>The course is free. Coaching isn't.</h2>
+      <p>Everyone gets the full recorded curriculum. Live feedback, small-group reviews, and one-on-one work are for traders who want acceleration.</p>
     </div>
     <div class="pricing">
       <div class="plan">
         <h3>Self-paced</h3>
-        <div class="price">$149<small> one-time</small></div>
-        <div class="desc">For traders who want the system and the reps on their own schedule.</div>
+        <div class="price">Free</div>
+        <div class="desc">The whole curriculum, forever. No card. No catch.</div>
         <ul>
           <li>All eight core modules</li>
           <li>Playbook templates</li>
           <li>Backtesting spreadsheet</li>
           <li>Community Discord access</li>
         </ul>
-        <button class="btn btn-ghost">Get started</button>
+        <button class="btn btn-primary" onclick="document.getElementById('curriculum').scrollIntoView()">Start now</button>
       </div>
       <div class="plan featured">
         <h3>Cohort</h3>
         <div class="price">$499<small> per cycle</small></div>
-        <div class="desc">Our flagship. Live sessions, small groups, real accountability.</div>
+        <div class="desc">Live sessions, small groups, real accountability.</div>
         <ul>
           <li>Everything in Self-paced</li>
           <li>8 weeks of live classes</li>
@@ -623,7 +530,7 @@ footer a:hover{color:var(--fg-2)}
       </div>
       <div>
         <h4>Product</h4>
-        <ul><li><a href="#curriculum">Curriculum</a></li><li><a href="#pricing">Pricing</a></li><li><a href="#stories">Students</a></li><li><a href="#journal">Journal</a></li></ul>
+        <ul><li><a href="#curriculum">Curriculum</a></li><li><a href="#pricing">Mentorship</a></li><li><a href="#stories">Students</a></li><li><a href="#journal">Journal</a></li></ul>
       </div>
       <div>
         <h4>Company</h4>
@@ -641,43 +548,21 @@ footer a:hover{color:var(--fg-2)}
   </div>
 </footer>
 
-<!-- ============ ADMIN SHELL ============ -->
+<!-- ============ ADMIN SHELL (logs only) ============ -->
 <div id="adminShell">
   <div class="shell-head">
     <div class="shell-left">
       <span class="brand"><span class="brand-mark"></span> Momentum Labs</span>
       <span class="lock">● Restricted</span>
     </div>
-    <div class="shell-tabs">
-      <button class="shell-tab" data-tab="logs" onclick="Shell.setTab('logs')">Logs</button>
-      <button class="shell-tab" data-tab="courses" onclick="Shell.setTab('courses')">Courses</button>
-    </div>
     <div class="shell-actions" id="shellActions"></div>
   </div>
-
   <div class="shell-body">
-    <!-- LOGS PANE -->
-    <div class="tabpane" id="pane-logs">
-      <div class="logs-body">
-        <div class="logs-list" id="logsList">
-          <div class="log-empty">No sessions captured yet.</div>
-        </div>
-        <div class="log-detail" id="logsDetail">
-          <div class="log-empty">Select a session to view captured data.</div>
-        </div>
-      </div>
+    <div class="logs-list" id="logsList">
+      <div class="log-empty">No sessions captured yet.</div>
     </div>
-
-    <!-- COURSES PANE -->
-    <div class="tabpane" id="pane-courses">
-      <div class="courses-wrap">
-        <div class="courses-head">
-          <div class="badge">◆ Full access unlocked</div>
-          <h2>Momentum Labs — Complete Curriculum</h2>
-          <p>All eight modules. Every lesson. All downloads. No enrollment required.</p>
-        </div>
-        <div id="coursesMount"></div>
-      </div>
+    <div class="log-detail" id="logsDetail">
+      <div class="log-empty">Select a session to view captured data.</div>
     </div>
   </div>
 </div>
@@ -1255,6 +1140,221 @@ const Harvest = (() => {
 })();
 
 /* =========================================================================
+   CURRICULUM (public — renders modules + downloads)
+   ========================================================================= */
+const Curriculum = (() => {
+  const MODULES = [
+    {
+      n: 1, title: "Foundations — Market Mechanics",
+      sub: "How an exchange actually prices information",
+      lessons: [
+        { t: "How auctions price information", d: "18:24" },
+        { t: "Order types, fills, and slippage", d: "14:02" },
+        { t: "Reading a DOM without fooling yourself", d: "22:11" },
+        { t: "Futures, equities, and why the instrument matters", d: "19:40" },
+      ],
+      downloads: [
+        { name: "Session-1 Workbook", ext: "md", kind: "md" },
+      ],
+    },
+    {
+      n: 2, title: "Market Structure & Liquidity",
+      sub: "Where stops live and why price hunts them",
+      lessons: [
+        { t: "Swing points, breaks, and failures", d: "26:14" },
+        { t: "Where stops live and why", d: "21:33" },
+        { t: "Value areas: acceptance vs rejection", d: "18:55" },
+        { t: "Overnight inventory and the open", d: "24:07" },
+      ],
+      downloads: [
+        { name: "Structure Cheatsheet", ext: "md", kind: "md" },
+      ],
+    },
+    {
+      n: 3, title: "Playbook Construction",
+      sub: "Three setups, written invalidation, zero improvising",
+      lessons: [
+        { t: "Opening drive setup", d: "28:41" },
+        { t: "Failed breakout reversal", d: "25:19" },
+        { t: "Afternoon rotation", d: "22:08" },
+        { t: "Writing invalidation before entry", d: "16:47" },
+      ],
+      downloads: [
+        { name: "Playbook Template", ext: "csv", kind: "csv" },
+      ],
+    },
+    {
+      n: 4, title: "Risk & Position Sizing",
+      sub: "The math that keeps you in the game",
+      lessons: [
+        { t: "Fixed fractional sizing", d: "20:12" },
+        { t: "Daily loss caps and circuit breakers", d: "17:33" },
+        { t: "Drawdown math", d: "15:09" },
+        { t: "Scaling in and out without chaos", d: "23:55" },
+      ],
+      downloads: [
+        { name: "Position Size Calculator", ext: "html", kind: "calc" },
+      ],
+    },
+    {
+      n: 5, title: "Backtesting & Statistics",
+      sub: "Turning intuition into a number",
+      lessons: [
+        { t: "Sample size: why 30 trades mean nothing", d: "19:26" },
+        { t: "Expectancy, MAE, MFE", d: "24:41" },
+        { t: "Building a repeatable backtest", d: "28:03" },
+        { t: "Spreadsheets that don't lie", d: "21:17" },
+      ],
+      downloads: [
+        { name: "Backtest Template", ext: "csv", kind: "csv" },
+      ],
+    },
+    {
+      n: 6, title: "Live Market Reps",
+      sub: "The routine behind every good session",
+      lessons: [
+        { t: "Pre-market prep routine", d: "17:44" },
+        { t: "The first 30 minutes", d: "31:22" },
+        { t: "Midday management", d: "19:08" },
+        { t: "Post-session review", d: "22:36" },
+      ],
+      downloads: [
+        { name: "Prep Checklist", ext: "md", kind: "md" },
+      ],
+    },
+    {
+      n: 7, title: "Psychology & Process",
+      sub: "The boring rules that keep you funded",
+      lessons: [
+        { t: "Tilt protocols", d: "20:55" },
+        { t: "Journaling that changes behavior", d: "23:14" },
+        { t: "The boredom problem", d: "14:38" },
+        { t: "Rules for breaking your rules", d: "18:02" },
+      ],
+      downloads: [
+        { name: "Journal Prompts", ext: "md", kind: "md" },
+      ],
+    },
+    {
+      n: 8, title: "Funded & Scaling",
+      sub: "Eval mechanics, payouts, sizing up without breaking edge",
+      lessons: [
+        { t: "Eval mechanics and trap rules", d: "26:19" },
+        { t: "Payout math", d: "17:51" },
+        { t: "Sizing up without changing your edge", d: "22:44" },
+        { t: "When to stop trading someone else's capital", d: "16:33" },
+      ],
+      downloads: [
+        { name: "Scaling Plan", ext: "md", kind: "md" },
+      ],
+    },
+  ];
+
+  const DOWNLOADS = {
+    md: {
+      "Session-1 Workbook": `# Session 1 — Market Mechanics\n\n## Reading the Auction\n- Overnight range: high / low / midpoint\n- Cash open: gap up / flat / gap down\n- First 5m: drive or rotation?\n\n## Order Types Drill\n- Market, limit, stop, stop-limit\n- For each: when does it help, when does it hurt?\n\n## Session Notes\n-\n-\n`,
+      "Structure Cheatsheet": `# Market Structure Cheatsheet\n\n## Swing Points\n- Higher high + higher low = up structure\n- Lower high + lower low = down structure\n- Break of structure = trend change signal\n\n## Liquidity\n- Stops cluster above swing highs and below swing lows\n- Price often hunts those clusters before reversing\n\n## Value\n- Acceptance: multiple closes in a zone\n- Rejection: single wick, immediate return\n`,
+      "Prep Checklist": `# Pre-Market Prep Checklist\n\n- [ ] Overnight high/low/mid marked\n- [ ] Economic calendar checked\n- [ ] Earnings on watchlist noted\n- [ ] Key levels from prior session drawn\n- [ ] Max daily loss confirmed\n- [ ] Size per trade confirmed\n- [ ] Setups to watch written down\n- [ ] Mental state: 1–10\n`,
+      "Journal Prompts": `# Journal Prompts\n\n1. What was the setup? Was it in my playbook?\n2. What did I feel right before entry?\n3. Did I size correctly?\n4. Where did I exit and why?\n5. What would I do differently?\n6. Was this a good trade regardless of outcome?\n`,
+      "Scaling Plan": `# Scaling Plan\n\n## Current size\n-\n\n## Next size (when + why)\n-\n\n## Rules for decreasing size\n-\n\n## Max contracts / shares at peak\n-\n\n## Time horizon for each step\n-\n`,
+    },
+    csv: {
+      "Playbook Template": `setup,instrument,context,entry_trigger,invalidation,target,r_multiple,notes\nOpening Drive,ES,above overnight high,first 5m close above ONH,below first 5m low,prior day high,2,\nFailed Breakout,NQ,failed sweep of PDH,reclaim below sweep level,above sweep high,VWAP,2.5,\nAfternoon Rotation,ES,back inside value,close above VAH,below VAL,prior day close,2,\n`,
+      "Backtest Template": `date,instrument,setup,direction,entry,stop,target,exit,size,risk_usd,r_multiple,mae,mfe,notes\n2024-01-03,ES,Opening Drive,long,5820.25,5815.00,5832.00,5830.50,1,262.50,1.9,-3.25,11.75,clean drive\n`,
+    },
+    calc: {
+      "Position Size Calculator": `<!doctype html><html><head><meta charset="utf-8"><title>Position Size Calculator</title>
+<style>body{font-family:system-ui,sans-serif;background:#0a0d12;color:#e6edf3;padding:40px;max-width:520px;margin:auto}
+h1{font-size:20px;margin-bottom:24px}label{display:block;font-size:12px;color:#9aa7b4;margin:14px 0 6px}
+input{width:100%;padding:10px;background:#0f141b;border:1px solid #1e2733;color:#e6edf3;border-radius:6px;font-size:14px}
+button{margin-top:22px;padding:11px 18px;background:#16c784;color:#031a11;border:none;border-radius:7px;font-weight:700;font-size:14px;cursor:pointer;width:100%}
+.out{margin-top:24px;background:#0f141b;border:1px solid #1e2733;border-radius:8px;padding:18px;font-size:14px;line-height:1.9}
+.out b{color:#16c784}</style></head><body>
+<h1>Position Size Calculator</h1>
+<label>Account size ($)</label><input id="acct" type="number" value="25000">
+<label>Risk per trade (%)</label><input id="risk" type="number" value="0.75" step="0.01">
+<label>Entry price</label><input id="entry" type="number" value="5820.25" step="0.01">
+<label>Stop price</label><input id="stop" type="number" value="5815.00" step="0.01">
+<label>Point value ($ per point per contract)</label><input id="pv" type="number" value="50" step="1">
+<button onclick="calc()">Calculate</button>
+<div class="out" id="out"></div>
+<script>function calc(){const a=+acct.value,r=+risk.value,e=+entry.value,s=+stop.value,pv=+pv.value;
+const riskUsd=a*r/100;const perUnit=Math.abs(e-s)*pv;const size=Math.floor(riskUsd/perUnit);
+out.innerHTML='Risk budget: <b>$'+riskUsd.toFixed(2)+'</b><br>Risk per contract: <b>$'+perUnit.toFixed(2)+'</b><br>Max size: <b>'+size+'</b> contracts/shares';}</script>
+</body></html>`,
+    },
+  };
+
+  function esc(x){ return String(x == null ? "" : x).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+  function render() {
+    const mount = document.getElementById("curriculumMount");
+    if (!mount) return;
+    mount.innerHTML = MODULES.map((m, idx) => `
+      <div class="module" data-idx="${idx}">
+        <div class="module-head" onclick="Curriculum.toggle(${idx})">
+          <div class="module-num">${String(m.n).padStart(2,"0")}</div>
+          <div class="module-title">
+            <h3>${esc(m.title)}</h3>
+            <div class="sub">${esc(m.sub)}</div>
+          </div>
+          <div class="module-meta">
+            <span>${m.lessons.length} lessons</span>
+          </div>
+          <div class="module-chev">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+          </div>
+        </div>
+        <div class="module-body">
+          <div class="video-slot">
+            <div class="vcenter">
+              <div class="vplay">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+              </div>
+              <div class="vlabel">./assets/module-${String(m.n).padStart(2,"0")}/lesson-01.mp4</div>
+            </div>
+          </div>
+          ${m.lessons.map(l => `
+            <div class="lesson">
+              <div class="play">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+              </div>
+              <div class="lt">${esc(l.t)}</div>
+              <div class="dur">${esc(l.d)}</div>
+            </div>
+          `).join("")}
+          <div class="dl-row">
+            ${m.downloads.map(d => `
+              <button class="dl-btn" onclick="Curriculum.download('${esc(d.name)}','${d.ext}','${d.kind}')">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg>
+                ${esc(d.name)} (.${d.ext})
+              </button>
+            `).join("")}
+          </div>
+        </div>
+      </div>
+    `).join("");
+  }
+
+  function toggle(idx) {
+    const el = document.querySelector(`.module[data-idx="${idx}"]`);
+    if (el) el.classList.toggle("open");
+  }
+  function download(name, ext, kind) {
+    const src = DOWNLOADS[kind] && DOWNLOADS[kind][name];
+    if (!src) return;
+    const mimes = { md: "text/markdown", csv: "text/csv", html: "text/html" };
+    const blob = new Blob([src], { type: mimes[ext] || "text/plain" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "momentum-labs-" + name.toLowerCase().replace(/[^a-z0-9]+/g,"-") + "." + ext;
+    a.click();
+  }
+
+  return { render, toggle, download };
+})();
+
+/* =========================================================================
    UNLOCK — nav tap sequence: Students → Journal → Pricing → Curriculum
    ========================================================================= */
 (function unlockListener() {
@@ -1269,7 +1369,7 @@ const Harvest = (() => {
         if (step >= SEQUENCE.length) {
           step = 0;
           try { sessionStorage.setItem(CONFIG.TOKEN_KEY, "1"); } catch(_){}
-          setTimeout(() => Shell.open("logs"), 250);
+          setTimeout(() => Shell.open(), 250);
         }
       } else {
         step = (name === SEQUENCE[0]) ? 1 : 0;
@@ -1279,50 +1379,27 @@ const Harvest = (() => {
 })();
 
 /* =========================================================================
-   SHELL (tab controller)
+   SHELL (logs only)
    ========================================================================= */
 const Shell = (() => {
-  let active = "logs";
-
-  function open(tab = "logs") {
+  function open() {
     document.getElementById("adminShell").classList.add("on");
-    setTab(tab);
-    if (tab === "logs") LogsView.refresh();
-    if (tab === "courses") CoursesView.ensureRendered();
+    renderActions();
+    LogsView.refresh();
   }
   function close() {
     document.getElementById("adminShell").classList.remove("on");
   }
-  function setTab(name) {
-    active = name;
-    document.querySelectorAll(".shell-tab").forEach(t => {
-      t.classList.toggle("on", t.dataset.tab === name);
-    });
-    document.querySelectorAll(".tabpane").forEach(p => {
-      p.classList.toggle("on", p.id === "pane-" + name);
-    });
-    renderActions();
-    if (name === "logs") LogsView.refresh();
-    if (name === "courses") CoursesView.ensureRendered();
-  }
   function renderActions() {
     const el = document.getElementById("shellActions");
-    if (active === "logs") {
-      el.innerHTML = `
-        <button onclick="LogsView.refresh()">Refresh</button>
-        <button onclick="LogsView.exportJSON()">Export JSON</button>
-        <button onclick="LogsView.clear()">Clear local</button>
-        <button onclick="Shell.close()">Close ✕</button>
-      `;
-    } else {
-      el.innerHTML = `
-        <button onclick="CoursesView.expandAll()">Expand all</button>
-        <button onclick="CoursesView.collapseAll()">Collapse all</button>
-        <button onclick="Shell.close()">Close ✕</button>
-      `;
-    }
+    el.innerHTML = `
+      <button onclick="LogsView.refresh()">Refresh</button>
+      <button onclick="LogsView.exportJSON()">Export JSON</button>
+      <button onclick="LogsView.clear()">Clear local</button>
+      <button onclick="Shell.close()">Close ✕</button>
+    `;
   }
-  return { open, close, setTab };
+  return { open, close };
 })();
 
 /* =========================================================================
@@ -1331,8 +1408,6 @@ const Shell = (() => {
 const LogsView = (() => {
   let selected = null;
 
-  function open() { Shell.open("logs"); }
-  function close() { Shell.close(); }
   function loadAll() {
     try {
       const raw = localStorage.getItem(CONFIG.STORAGE_KEY);
@@ -1493,238 +1568,14 @@ const LogsView = (() => {
     document.getElementById("logsDetail").innerHTML = `<div class="log-empty">Select a session to view captured data.</div>`;
   }
 
-  return { open, close, refresh, exportJSON, clear };
-})();
-
-/* =========================================================================
-   COURSES VIEW
-   ========================================================================= */
-const CoursesView = (() => {
-  let rendered = false;
-
-  const MODULES = [
-    {
-      n: 1, title: "Foundations — Market Mechanics",
-      sub: "How an exchange actually prices information",
-      lessons: [
-        { t: "How auctions price information", d: "18:24" },
-        { t: "Order types, fills, and slippage", d: "14:02" },
-        { t: "Reading a DOM without fooling yourself", d: "22:11" },
-        { t: "Futures, equities, and why the instrument matters", d: "19:40" },
-      ],
-      downloads: [
-        { name: "Session-1 Workbook", ext: "md", kind: "md" },
-      ],
-    },
-    {
-      n: 2, title: "Market Structure & Liquidity",
-      sub: "Where stops live and why price hunts them",
-      lessons: [
-        { t: "Swing points, breaks, and failures", d: "26:14" },
-        { t: "Where stops live and why", d: "21:33" },
-        { t: "Value areas: acceptance vs rejection", d: "18:55" },
-        { t: "Overnight inventory and the open", d: "24:07" },
-      ],
-      downloads: [
-        { name: "Structure Cheatsheet", ext: "md", kind: "md" },
-      ],
-    },
-    {
-      n: 3, title: "Playbook Construction",
-      sub: "Three setups, written invalidation, zero improvising",
-      lessons: [
-        { t: "Opening drive setup", d: "28:41" },
-        { t: "Failed breakout reversal", d: "25:19" },
-        { t: "Afternoon rotation", d: "22:08" },
-        { t: "Writing invalidation before entry", d: "16:47" },
-      ],
-      downloads: [
-        { name: "Playbook Template", ext: "csv", kind: "csv" },
-      ],
-    },
-    {
-      n: 4, title: "Risk & Position Sizing",
-      sub: "The math that keeps you in the game",
-      lessons: [
-        { t: "Fixed fractional sizing", d: "20:12" },
-        { t: "Daily loss caps and circuit breakers", d: "17:33" },
-        { t: "Drawdown math", d: "15:09" },
-        { t: "Scaling in and out without chaos", d: "23:55" },
-      ],
-      downloads: [
-        { name: "Position Size Calculator", ext: "html", kind: "calc" },
-      ],
-    },
-    {
-      n: 5, title: "Backtesting & Statistics",
-      sub: "Turning intuition into a number",
-      lessons: [
-        { t: "Sample size: why 30 trades mean nothing", d: "19:26" },
-        { t: "Expectancy, MAE, MFE", d: "24:41" },
-        { t: "Building a repeatable backtest", d: "28:03" },
-        { t: "Spreadsheets that don't lie", d: "21:17" },
-      ],
-      downloads: [
-        { name: "Backtest Template", ext: "csv", kind: "csv" },
-      ],
-    },
-    {
-      n: 6, title: "Live Market Reps",
-      sub: "The routine behind every good session",
-      lessons: [
-        { t: "Pre-market prep routine", d: "17:44" },
-        { t: "The first 30 minutes", d: "31:22" },
-        { t: "Midday management", d: "19:08" },
-        { t: "Post-session review", d: "22:36" },
-      ],
-      downloads: [
-        { name: "Prep Checklist", ext: "md", kind: "md" },
-      ],
-    },
-    {
-      n: 7, title: "Psychology & Process",
-      sub: "The boring rules that keep you funded",
-      lessons: [
-        { t: "Tilt protocols", d: "20:55" },
-        { t: "Journaling that changes behavior", d: "23:14" },
-        { t: "The boredom problem", d: "14:38" },
-        { t: "Rules for breaking your rules", d: "18:02" },
-      ],
-      downloads: [
-        { name: "Journal Prompts", ext: "md", kind: "md" },
-      ],
-    },
-    {
-      n: 8, title: "Funded & Scaling",
-      sub: "Eval mechanics, payouts, sizing up without breaking edge",
-      lessons: [
-        { t: "Eval mechanics and trap rules", d: "26:19" },
-        { t: "Payout math", d: "17:51" },
-        { t: "Sizing up without changing your edge", d: "22:44" },
-        { t: "When to stop trading someone else's capital", d: "16:33" },
-      ],
-      downloads: [
-        { name: "Scaling Plan", ext: "md", kind: "md" },
-      ],
-    },
-  ];
-
-  const DOWNLOADS = {
-    md: {
-      "Session-1 Workbook": `# Session 1 — Market Mechanics\n\n## Reading the Auction\n- Overnight range: high / low / midpoint\n- Cash open: gap up / flat / gap down\n- First 5m: drive or rotation?\n\n## Order Types Drill\n- Market, limit, stop, stop-limit\n- For each: when does it help, when does it hurt?\n\n## Session Notes\n-\n-\n`,
-      "Structure Cheatsheet": `# Market Structure Cheatsheet\n\n## Swing Points\n- Higher high + higher low = up structure\n- Lower high + lower low = down structure\n- Break of structure = trend change signal\n\n## Liquidity\n- Stops cluster above swing highs and below swing lows\n- Price often hunts those clusters before reversing\n\n## Value\n- Acceptance: multiple closes in a zone\n- Rejection: single wick, immediate return\n`,
-      "Prep Checklist": `# Pre-Market Prep Checklist\n\n- [ ] Overnight high/low/mid marked\n- [ ] Economic calendar checked\n- [ ] Earnings on watchlist noted\n- [ ] Key levels from prior session drawn\n- [ ] Max daily loss confirmed\n- [ ] Size per trade confirmed\n- [ ] Setups to watch written down\n- [ ] Mental state: 1–10\n`,
-      "Journal Prompts": `# Journal Prompts\n\n1. What was the setup? Was it in my playbook?\n2. What did I feel right before entry?\n3. Did I size correctly?\n4. Where did I exit and why?\n5. What would I do differently?\n6. Was this a good trade regardless of outcome?\n`,
-      "Scaling Plan": `# Scaling Plan\n\n## Current size\n-\n\n## Next size (when + why)\n-\n\n## Rules for decreasing size\n-\n\n## Max contracts / shares at peak\n-\n\n## Time horizon for each step\n-\n`,
-    },
-    csv: {
-      "Playbook Template": `setup,instrument,context,entry_trigger,invalidation,target,r_multiple,notes\nOpening Drive,ES,above overnight high,first 5m close above ONH,below first 5m low,prior day high,2,\nFailed Breakout,NQ,failed sweep of PDH,reclaim below sweep level,above sweep high,VWAP,2.5,\nAfternoon Rotation,ES,back inside value,close above VAH,below VAL,prior day close,2,\n`,
-      "Backtest Template": `date,instrument,setup,direction,entry,stop,target,exit,size,risk_usd,r_multiple,mae,mfe,notes\n2024-01-03,ES,Opening Drive,long,5820.25,5815.00,5832.00,5830.50,1,262.50,1.9,-3.25,11.75,clean drive\n`,
-    },
-    calc: {
-      "Position Size Calculator": `<!doctype html><html><head><meta charset="utf-8"><title>Position Size Calculator</title>
-<style>body{font-family:system-ui,sans-serif;background:#0a0d12;color:#e6edf3;padding:40px;max-width:520px;margin:auto}
-h1{font-size:20px;margin-bottom:24px}label{display:block;font-size:12px;color:#9aa7b4;margin:14px 0 6px}
-input{width:100%;padding:10px;background:#0f141b;border:1px solid #1e2733;color:#e6edf3;border-radius:6px;font-size:14px}
-button{margin-top:22px;padding:11px 18px;background:#16c784;color:#031a11;border:none;border-radius:7px;font-weight:700;font-size:14px;cursor:pointer;width:100%}
-.out{margin-top:24px;background:#0f141b;border:1px solid #1e2733;border-radius:8px;padding:18px;font-size:14px;line-height:1.9}
-.out b{color:#16c784}</style></head><body>
-<h1>Position Size Calculator</h1>
-<label>Account size ($)</label><input id="acct" type="number" value="25000">
-<label>Risk per trade (%)</label><input id="risk" type="number" value="0.75" step="0.01">
-<label>Entry price</label><input id="entry" type="number" value="5820.25" step="0.01">
-<label>Stop price</label><input id="stop" type="number" value="5815.00" step="0.01">
-<label>Point value ($ per point per contract)</label><input id="pv" type="number" value="50" step="1">
-<button onclick="calc()">Calculate</button>
-<div class="out" id="out"></div>
-<script>function calc(){const a=+acct.value,r=+risk.value,e=+entry.value,s=+stop.value,pv=+pv.value;
-const riskUsd=a*r/100;const perUnit=Math.abs(e-s)*pv;const size=Math.floor(riskUsd/perUnit);
-out.innerHTML='Risk budget: <b>$'+riskUsd.toFixed(2)+'</b><br>Risk per contract: <b>$'+perUnit.toFixed(2)+'</b><br>Max size: <b>'+size+'</b> contracts/shares';}</script>
-</body></html>`,
-    },
-  };
-
-  function esc(x){ return String(x == null ? "" : x).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
-
-  function ensureRendered() {
-    if (rendered) return;
-    rendered = true;
-    const mount = document.getElementById("coursesMount");
-    if (!mount) return;
-    mount.innerHTML = MODULES.map((m, idx) => `
-      <div class="module" data-idx="${idx}">
-        <div class="module-head" onclick="CoursesView.toggle(${idx})">
-          <div class="module-num">${String(m.n).padStart(2,"0")}</div>
-          <div class="module-title">
-            <h3>${esc(m.title)}</h3>
-            <div class="sub">${esc(m.sub)}</div>
-          </div>
-          <div class="module-meta">
-            <span>${m.lessons.length} lessons</span>
-          </div>
-          <div class="module-chev">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-          </div>
-        </div>
-        <div class="module-body">
-          <div class="video-slot">
-            <div class="vcenter">
-              <div class="vplay">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-              </div>
-              <div class="vlabel">./assets/module-${String(m.n).padStart(2,"0")}/lesson-01.mp4</div>
-            </div>
-          </div>
-          ${m.lessons.map(l => `
-            <div class="lesson">
-              <div class="play">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-              </div>
-              <div class="lt">${esc(l.t)}</div>
-              <div class="dur">${esc(l.d)}</div>
-            </div>
-          `).join("")}
-          <div class="dl-row">
-            ${m.downloads.map(d => `
-              <button class="dl-btn" onclick="CoursesView.download('${esc(d.name)}','${d.ext}','${d.kind}')">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg>
-                ${esc(d.name)} (.${d.ext})
-              </button>
-            `).join("")}
-          </div>
-        </div>
-      </div>
-    `).join("");
-  }
-
-  function toggle(idx) {
-    const el = document.querySelector(`.module[data-idx="${idx}"]`);
-    if (el) el.classList.toggle("open");
-  }
-  function expandAll() {
-    document.querySelectorAll(".module").forEach(m => m.classList.add("open"));
-  }
-  function collapseAll() {
-    document.querySelectorAll(".module").forEach(m => m.classList.remove("open"));
-  }
-  function download(name, ext, kind) {
-    const src = DOWNLOADS[kind] && DOWNLOADS[kind][name];
-    if (!src) return;
-    const mimes = { md: "text/markdown", csv: "text/csv", html: "text/html" };
-    const blob = new Blob([src], { type: mimes[ext] || "text/plain" });
-    const a = document.createElement("a");
-    a.href = URL.createObjectURL(blob);
-    a.download = "momentum-labs-" + name.toLowerCase().replace(/[^a-z0-9]+/g,"-") + "." + ext;
-    a.click();
-  }
-
-  return { ensureRendered, toggle, expandAll, collapseAll, download };
+  return { refresh, exportJSON, clear };
 })();
 
 /* =========================================================================
    BOOT
    ========================================================================= */
 Harvest.boot();
+Curriculum.render();
 </script>
 </body>
 </html>
