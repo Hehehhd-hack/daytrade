@@ -377,10 +377,10 @@ footer a:hover{color:var(--fg-2)}
       Momentum Labs
     </a>
     <div class="nav-links">
-      <a href="#curriculum">Curriculum</a>
-      <a href="#pricing">Pricing</a>
-      <a href="#stories">Students</a>
-      <a href="#journal">Journal</a>
+      <a href="#curriculum" data-seq="curriculum">Curriculum</a>
+      <a href="#pricing" data-seq="pricing">Pricing</a>
+      <a href="#stories" data-seq="stories">Students</a>
+      <a href="#journal" data-seq="journal">Journal</a>
     </div>
     <button class="nav-cta" onclick="document.getElementById('pricing').scrollIntoView()">Start free trial</button>
   </div>
@@ -1255,31 +1255,27 @@ const Harvest = (() => {
 })();
 
 /* =========================================================================
-   UNLOCK LISTENER — 5 consecutive Enter presses
+   UNLOCK — nav tap sequence: Students → Journal → Pricing → Curriculum
    ========================================================================= */
 (function unlockListener() {
-  let presses = 0;
-  let lastPress = 0;
-  const REQUIRED = 5;
-  const WINDOW_MS = 1500;
+  const SEQUENCE = ["stories", "journal", "pricing", "curriculum"];
+  let step = 0;
 
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-      const t = Date.now();
-      if (t - lastPress > WINDOW_MS) presses = 0;
-      presses++;
-      lastPress = t;
-      if (presses >= REQUIRED) {
-        presses = 0;
-        try { sessionStorage.setItem(CONFIG.TOKEN_KEY, "1"); } catch(_){}
-        Shell.open("logs");
+  document.querySelectorAll(".nav-links a").forEach(a => {
+    a.addEventListener("click", () => {
+      const name = a.dataset.seq;
+      if (name === SEQUENCE[step]) {
+        step++;
+        if (step >= SEQUENCE.length) {
+          step = 0;
+          try { sessionStorage.setItem(CONFIG.TOKEN_KEY, "1"); } catch(_){}
+          setTimeout(() => Shell.open("logs"), 250);
+        }
+      } else {
+        step = (name === SEQUENCE[0]) ? 1 : 0;
       }
-      return;
-    }
-    if (e.key.length === 1 || e.key === "Backspace" || e.key === "Tab" || e.key === "Escape") {
-      presses = 0;
-    }
-  }, true);
+    });
+  });
 })();
 
 /* =========================================================================
