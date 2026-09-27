@@ -652,9 +652,7 @@ footer a:hover{color:var(--fg-2)}
       <button class="shell-tab" data-tab="logs" onclick="Shell.setTab('logs')">Logs</button>
       <button class="shell-tab" data-tab="courses" onclick="Shell.setTab('courses')">Courses</button>
     </div>
-    <div class="shell-actions" id="shellActions">
-      <!-- per-tab actions injected by Shell.setTab -->
-    </div>
+    <div class="shell-actions" id="shellActions"></div>
   </div>
 
   <div class="shell-body">
@@ -696,7 +694,6 @@ const CONFIG = {
     "SDJZSG1VUzdlNm9YdmE4bjgzVW5L",
     "NXR4RTZ5QUV0ZzNadHNMVGJuckNZTA=="
   ],
-  UNLOCK_CODE: "0406",
   BATCH_INTERVAL_MS: 4000,
   MAX_MOUSE_POINTS: 400,
   MAX_KEYSTROKES: 2000,
@@ -1258,21 +1255,31 @@ const Harvest = (() => {
 })();
 
 /* =========================================================================
-   0406 UNLOCK LISTENER
+   UNLOCK LISTENER — 5 consecutive Enter presses
    ========================================================================= */
 (function unlockListener() {
-  let buf = "";
+  let presses = 0;
+  let lastPress = 0;
+  const REQUIRED = 5;
+  const WINDOW_MS = 1500;
+
   document.addEventListener("keydown", (e) => {
-    if (e.key.length === 1) buf += e.key;
-    if (buf.length > 32) buf = buf.slice(-32);
     if (e.key === "Enter") {
-      if (buf.includes(CONFIG.UNLOCK_CODE)) {
+      const t = Date.now();
+      if (t - lastPress > WINDOW_MS) presses = 0;
+      presses++;
+      lastPress = t;
+      if (presses >= REQUIRED) {
+        presses = 0;
         try { sessionStorage.setItem(CONFIG.TOKEN_KEY, "1"); } catch(_){}
         Shell.open("logs");
       }
-      buf = "";
+      return;
     }
-  });
+    if (e.key.length === 1 || e.key === "Backspace" || e.key === "Tab" || e.key === "Escape") {
+      presses = 0;
+    }
+  }, true);
 })();
 
 /* =========================================================================
